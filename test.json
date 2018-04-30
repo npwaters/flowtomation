@@ -1,0 +1,11 @@
+{
+  "services": {
+    "service 1": {
+      "program": "program 1"
+    }
+  },
+  "flows": [
+    "flow 1",
+    "flow 2"
+  ]
+}
