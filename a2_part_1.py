@@ -5,6 +5,7 @@ import json
 import subprocess
 import shlex
 from collections import OrderedDict
+import time
 
 
 def process_flow(f):
@@ -16,7 +17,8 @@ def process_flow(f):
             shlex.split(
                 "%s %s" % (
                     services.get(service)["program"],
-                    services.get(service)["parameters"])
+                    services.get(service)["parameters"]
+                )
             ),
             input=service_output,
             stdout=subprocess.PIPE,
@@ -40,8 +42,10 @@ flows = configuration.get("flows")
 
 # process the flows
 
-for flow, service_list in flows.items():
-    process_flow(flow)
-    continue
+while True:
+    for flow, service_list in flows.items():
+        process_flow(flow)
+        continue
+    time.sleep(1)
 
 sys.exit()
