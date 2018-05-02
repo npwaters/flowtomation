@@ -1,11 +1,16 @@
 {
   "services": {
-    "service 1": {
-      "program": "program 1"
+    "time of day": {
+      "program": "date",
+      "parameters": "'+%d/%m/%Y %H:%M:%S'"
+    },
+    "append to file": {
+      "program": "./append.py",
+      "parameters": "times.txt"
     }
   },
   "flows": [
-    "flow 1",
-    "flow 2"
+    "time of day",
+    "append to file"
   ]
 }
