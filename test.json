@@ -5,12 +5,14 @@
       "parameters": "'+%d/%m/%Y %H:%M:%S'"
     },
     "append to file": {
-      "program": "./append.py",
+      "program": ".\/append.py",
       "parameters": "times.txt"
     }
   },
-  "flows": [
-    "time of day",
-    "append to file"
-  ]
+  "flows": {
+    "Append time of day": [
+      "time of day",
+      "append to file"
+    ]
+  }
 }
