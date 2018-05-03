@@ -25,6 +25,9 @@ def process_flow(f):
             stderr=subprocess.PIPE
         )
         service_output = result.stdout
+        # return error code if stderr
+        status = result.returncode
+        continue
 
 
 # TODO: handle invalid json etc per specs

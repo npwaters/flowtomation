@@ -6,24 +6,24 @@ Exists if invalid time.
 """
 
 import sys
-import datetime
+import validate_time
 
-# input_time = sys.stdin.read()
-input_time = "24/05/2018 12:04:31"
-status = ''
+input_time = sys.stdin.read()
+# input_time = "24/05/2018 27:04:31"
+status = 0
+result = ""
 
-try:
-    validated_time = datetime.datetime.strptime(
-        input_time,
-        "%d/%m/%Y %H:%M:%S"
-    )
-except ValueError:
-    # exit with status code
-    status = "failed!"
-    pass
+validated_time = validate_time.convert_datetime_string(
+    input_time
+)
+
+if not validated_time:
+    status = -1
 else:
-    status = "success!"
+    if validated_time.hour < 12:
+        result = "True"
 
-
-sys.exit()
+result_bytes = result.encode(sys.stdout.encoding)
+sys.stdout.buffer.write(bytes)
+sys.exit(status)
 

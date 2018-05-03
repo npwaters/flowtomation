@@ -7,12 +7,22 @@
     "append to file": {
       "program": ".\/append.py",
       "parameters": "times.txt"
-    }
+    },
+	  "is morning": {
+		  "program": ".\/morning.py",
+		  "parameters": ""
+	  }
+	  
   },
   "flows": {
     "Append time of day": [
       "time of day",
       "append to file"
-    ]
+    ],
+	  "check if morning": [
+		  "time of day",
+		  "is morning"
+	  ]
+	  
   }
 }
