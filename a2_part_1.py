@@ -17,7 +17,7 @@ def process_flow(f):
         parameters = services.get(service)["parameters"]
         # check for special symbol '$$' in parameters
         if "$$" in parameters:
-            parameters.replace("$$", service_output.decode("utf-8"))
+            parameters = parameters.replace("$$", service_output.decode("utf-8"))
 
         # handle a possible exception if the service exits with a non-zero exit code
         try:
