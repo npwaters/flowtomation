@@ -13,13 +13,19 @@ def process_flow(f):
     # store our service output to use as input for the next service
     service_output = ''
     for service in flows.get(f):
+        program = services.get(service)["program"]
+        parameters = services.get(service)["parameters"]
+        # check for special symbol '$$' in parameters
+        if "$$" in parameters:
+            parameters.replace("$$", service_output.decode("utf-8"))
+
         # handle a possible exception if the service exits with a non-zero exit code
         try:
             result = subprocess.run(
                 shlex.split(
                     "%s %s" % (
-                        services.get(service)["program"],
-                        services.get(service)["parameters"]
+                        program,
+                        parameters
                     )
                 ),
                 input=service_output,
