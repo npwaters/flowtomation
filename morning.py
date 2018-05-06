@@ -2,7 +2,7 @@
 
 """
 returns “true” if the input is a time prior to 12pm, otherwise “false”.
-Exists if invalid time.
+Exits with non zero return code and error message (stderr) if invalid time.
 """
 
 # TODO: create 'time_of_day_service' class and sub class for 'morning' etc

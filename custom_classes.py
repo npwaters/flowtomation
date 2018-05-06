@@ -4,6 +4,7 @@ import sys
 
 class TimeOfDayService:
     def __init__(self, input_time):
+        # set result to False
         self.result = ""
         self.status = 0
         # self.input_time = input_time
@@ -30,7 +31,17 @@ class TimeOfDayService:
 
 class Morning(TimeOfDayService):
     def process_time(self, validated_time):
-        if self.validated_time.hour > 12:
+        if validated_time.hour < 12:
             self.result = "True"
 
 
+class Afternoon(TimeOfDayService):
+    def process_time(self, validated_time):
+        if 12 <= validated_time.hour < 18:
+            self.result = "True"
+
+
+class Evening(TimeOfDayService):
+    def process_time(self, validated_time):
+        if 18 <= validated_time.hour < 24:
+            self.result = "True"
