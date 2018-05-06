@@ -5,11 +5,12 @@ returns “true” if the input is a time prior to 12pm, otherwise “false”.
 Exists if invalid time.
 """
 
+# TODO: create 'time_of_day_service' class and sub class for 'morning' etc
 import sys
 import validate_time
 
 # input_time = sys.stdin.read()
-input_time = "35/05/2018 27:04:31"
+input_time = "06/05/2018 14:32:10\n"
 status = 0
 result = ""
 

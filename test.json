@@ -10,7 +10,7 @@
     },
 	  "is morning": {
 		  "program": ".\/morning.py",
-		  "parameters": "35/05/2018 27:04:31"
+		  "parameters": ""
 	  }
 	  
   },
