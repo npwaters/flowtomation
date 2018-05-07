@@ -6,6 +6,7 @@ import subprocess
 import shlex
 from collections import OrderedDict
 import time
+import datetime
 
 
 def process_flow(f):
@@ -39,7 +40,12 @@ def process_flow(f):
             pass
         # return error code if stderr
         status = result.returncode
+
+        # exit flow on non-zero return code
+        if status != 0:
+            return False
         continue
+    return True
 
 
 # TODO: handle invalid json etc per specs
@@ -59,7 +65,13 @@ flows = configuration.get("flows")
 
 while True:
     for flow, service_list in flows.items():
-        process_flow(flow)
+        flow_status = ""
+        start_time = datetime.datetime.now()
+        if process_flow(flow):
+            flow_status = "successful!"
+        else:
+            flow_status = "failed!"
+        time_taken = datetime.datetime.now() - start_time
         continue
     time.sleep(1)
 

@@ -12,6 +12,10 @@
 		  "program": ".\/morning.py",
 		  "parameters": ""
 	  },
+	  "is afternoon": {
+		  "program": "./afternoon.py",
+		  "parameters": ""
+	  },
 	  "echo": {
 		  "program": "echo",
 		  "parameters": "input is $$"
@@ -19,15 +23,17 @@
 	  
   },
   "flows": {
-    "Append time of day": [
+	  "check time of day": [
+		  "time of day",
+		  "is morning",
+		  "is afternoon"
+	  ],
+	  "Append time of day": [
       "time of day",
 		"echo",
       "append to file"
-    ],
-	  "check if morning": [
-		  "time of day",
-		  "is morning"
-	  ]
+    ]
+
 	  
   }
 }
