@@ -14,6 +14,7 @@ def process_flow(f):
     # store our service output to use as input for the next service
     service_output = ''
     for service in flows.get(f):
+        # TODO: extract 'building the command line' to a function
         program = services.get(service)["program"]
         parameters = services.get(service)["parameters"]
         # check for special symbol '$$' in parameters
