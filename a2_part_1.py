@@ -9,26 +9,35 @@ import time
 import datetime
 
 
+def get_configuration(
+        service,
+        service_output
+):
+    program = services.get(service)["program"]
+    parameters = services.get(service)["parameters"]
+    # check for special symbol '$$' in parameters
+    if "$$" in parameters:
+        parameters = parameters.replace("$$", service_output.decode("utf-8"))
+    command_line = shlex.split(
+                    "%s %s" % (
+                        program,
+                        parameters
+                    )
+                )
+    return command_line
+
+
 def process_flow(f):
     # TODO: docstring
     # store our service output to use as input for the next service
     service_output = ''
     for service in flows.get(f):
-        # TODO: extract 'building the command line' to a function
-        program = services.get(service)["program"]
-        parameters = services.get(service)["parameters"]
-        # check for special symbol '$$' in parameters
-        if "$$" in parameters:
-            parameters = parameters.replace("$$", service_output.decode("utf-8"))
-
         # handle a possible exception if the service exits with a non-zero exit code
         try:
             result = subprocess.run(
-                shlex.split(
-                    "%s %s" % (
-                        program,
-                        parameters
-                    )
+                get_configuration(
+                    service,
+                    service_output
                 ),
                 input=service_output,
                 stdout=subprocess.PIPE,
