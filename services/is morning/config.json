@@ -5,7 +5,7 @@
 	"configuration": {
 		"any": "required key value pairs"
 	},
-	"parameters": "required by the program",
+	"parameters": "",
 	"input": {
 		"type": "datetime"
 	},

@@ -68,11 +68,18 @@ def get_configuration_part_1(
     # check for special symbol '$$' in parameters
     if "$$" in parameters:
         parameters = parameters.replace("$$", service_output.decode("utf-8"))
+    # check if the service uses a custom python script
+    path = ''
+    if "./" in program:
+        path = "%s/%s/" % ("services", service.replace(' ', '"'))
+
     command_line = shlex.split(
-                    "%s %s" % (
+                    '%s%s %s' % (
+                        path,
                         program,
                         parameters
-                    )
+                    ),
+                    posix=False
                 )
     return command_line
 
