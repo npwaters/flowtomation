@@ -5,11 +5,11 @@
       "parameters": "'+%d/%m/%Y %H:%M:%S'"
     },
     "append to file": {
-      "program": ".\/append.py",
+      "program": "append to file/append.py",
       "parameters": "times.txt"
     },
 	  "is morning": {
-		  "program": ".\/morning.py",
+		  "program": "is morning/morning.py",
 		  "parameters": ""
 	  },
 	  "is afternoon": {

@@ -1,0 +1,15 @@
+{
+	"name": "time of day",
+	"program": "date",
+	"description": "",
+	"configuration": {
+		"any": "required key value pairs"
+	},
+	"parameters": "'+%d/%m/%Y %H:%M:%S'",
+	"input": {
+		"type": ""
+	},
+	"output": {
+		"type": "datetime"
+	}
+}

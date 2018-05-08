@@ -7,6 +7,7 @@ import shlex
 from collections import OrderedDict
 import time
 import datetime
+import os
 
 # ------------------------------------------------------------------------------
 # part 2
@@ -31,9 +32,24 @@ def verify_service_input_format(
 # ):
 #     pass
 #
-# def get_services_part_2():
-#     return services
-#
+def get_services_part_2():
+    # search recursively for config.json files in 'services' directory
+    result = ''
+    services = {}
+    for root, dirs, files in os.walk("services"):
+        for file in files:
+            if file == "config.json":
+                result = "found!"
+                service = json.load(
+                    open(
+                        os.path.join(root, file)
+                    ),
+                    object_pairs_hook=OrderedDict
+                )
+                services[service.get("name")] = service
+        continue
+    return services
+
 # # ------------------------------------------------------------------------------
 #
 #
@@ -107,10 +123,10 @@ def main():
 
     # get the services
     # part 1
-    services = configuration.get("services")
+    # services = configuration.get("services")
 
     # part 2
-    # services = get_services_part_2()
+    services = get_services_part_2()
 
 
     # process the flows
