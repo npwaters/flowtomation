@@ -71,7 +71,11 @@ def get_configuration_part_1(
     # check if the service uses a custom python script
     path = ''
     if "./" in program:
-        path = "%s/%s/" % ("services", service.replace(' ', '"'))
+        program = program[2:]
+        path = "%s/%s/" % (
+            "services",
+            " ".join(["%s\\" % line for line in service.split()])
+        )
 
     command_line = shlex.split(
                     '%s%s %s' % (
@@ -79,7 +83,6 @@ def get_configuration_part_1(
                         program,
                         parameters
                     ),
-                    posix=False
                 )
     return command_line
 
