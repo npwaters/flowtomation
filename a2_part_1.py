@@ -50,7 +50,10 @@ def verify_service_data_format(
     #     # get the required format, if one exists
     #     pass
     # get the data payload
-    # data = service_data.get("data")
+    if service_data:
+        data = json.loads(service_data.decode("utf-8"))\
+            .get("data")
+        converted_data = required_data_type(data)
 
 
 
@@ -126,12 +129,12 @@ def process_flow(f, flows, services):
     for service in flows.get(f):
         # part 2 only
         # verify service input i.e. 'service_output'
-        verify_service_data_format(
-            service,
-            services,
-            service_output,
-            Direction.INBOUND.value
-        )
+        # verify_service_data_format(
+        #     service,
+        #     services,
+        #     service_output,
+        #     Direction.INBOUND.value
+        # )
 
         # handle a possible exception if the service exits with a non-zero exit code
         try:
@@ -147,6 +150,12 @@ def process_flow(f, flows, services):
                 check=True
             )
             service_output = result.stdout
+            verify_service_data_format(
+                service,
+                services,
+                service_output,
+                Direction.OUTBOUND.value
+            )
         except subprocess.CalledProcessError as e:
             result = e
             pass

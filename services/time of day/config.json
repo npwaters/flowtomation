@@ -1,11 +1,11 @@
 {
 	"name": "time of day",
-	"program": "date",
+	"program": "./get_date_time.py",
 	"description": "",
 	"configuration": {
 		"any": "required key value pairs"
 	},
-	"parameters": "'+%d/%m/%Y %H:%M:%S'",
+	"parameters": "'%d/%m/%Y %H:%M:%S'",
 	"input": {
 		"type": ""
 	},
