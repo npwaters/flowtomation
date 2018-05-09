@@ -9,8 +9,8 @@ Exits with non zero return code and error message (stderr) if invalid time.
 import sys
 import custom_classes
 
-input_time = sys.stdin.read()
-# input_time = "06/15/2018 100:32:10\n"
+# input_time = sys.stdin.read()
+input_time = "06/11/2018 10:32:10\n"
 
 morning = custom_classes.Morning(input_time)
 status, result_bytes = morning.get_results()

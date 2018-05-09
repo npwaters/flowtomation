@@ -1,11 +1,15 @@
 import validate_time
+from custom_classes_part_2 import AppService
 import sys
 
-
-class TimeOfDayService:
+# class TimeOfDayService():
+# part 2
+class TimeOfDayService(AppService):
     def __init__(self, input_time):
         # set result to False
-        self.result = ""
+        # self.result = ""
+        # part 2
+        self.result = "False"
         self.status = 0
         # self.input_time = input_time
         self.validated_time = validate_time.convert_datetime_string(
@@ -26,13 +30,18 @@ class TimeOfDayService:
         pass
 
     def get_results(self):
-        return self.status, self.result_bytes
+        # return self.status, self.result_bytes
+        # part 2
+        return self.status,\
+               self.convert_output_to_json_bytes()
 
 
 class Morning(TimeOfDayService):
     def process_time(self, validated_time):
         if validated_time.hour < 12:
-            self.result = "True"
+            # self.result = "True"
+            # part 2
+            self.app_service_output["data"] = "True"
 
 
 class Afternoon(TimeOfDayService):
