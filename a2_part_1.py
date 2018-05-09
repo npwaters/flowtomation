@@ -8,23 +8,35 @@ from collections import OrderedDict
 import time
 import datetime
 import os
+import enum
 
 # ------------------------------------------------------------------------------
 # part 2
-def verify_service_input_format(
+
+class Direction(enum.Enum):
+    INBOUND = "input"
+    OUTBOUND = "output"
+
+
+def verify_service_data_format(
         service,
-        service_input
+        services,
+        service_data,
+        direction
 ):
     """
     -service input will be the output of the preceding service in the flow
     -input will be in the form of a JSON formatted string
     :return:
     """
-    # get the input type
+    # get the data type
+    required_data_type = services.get(service)\
+        .get(direction)\
+        .get("type")
 
     # get the required format, if one exists
 
-
+    return
 
 # def get_configuration_part_2(
 #         service,
@@ -68,12 +80,14 @@ def get_configuration_part_1(
     # check for special symbol '$$' in parameters
     if "$$" in parameters:
         parameters = parameters.replace("$$", service_output.decode("utf-8"))
+    # part 2 only
     # check if the service uses a custom python script
     path = ''
     if "./" in program:
         program = program[2:]
         path = "%s/%s/" % (
             "services",
+            # escape any spaces so shlex doesnt split the directory name
             " ".join(["%s\\" % line for line in service.split()])
         )
 
@@ -92,6 +106,15 @@ def process_flow(f, flows, services):
     # store our service output to use as input for the next service
     service_output = ''
     for service in flows.get(f):
+        # part 2 only
+        # verify service input i.e. 'service_output'
+        verify_service_data_format(
+            service,
+            services,
+            service_output,
+            Direction.INBOUND.value
+        )
+
         # handle a possible exception if the service exits with a non-zero exit code
         try:
             result = subprocess.run(

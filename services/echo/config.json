@@ -1,0 +1,15 @@
+{
+	"name": "echo",
+	"program": "echo",
+	"description": "",
+	"configuration": {
+		"any": "required key value pairs"
+	},
+	"parameters": "current time: $$",
+	"input": {
+		"type": "string"
+	},
+	"output": {
+		"type": "string"
+	}
+}
