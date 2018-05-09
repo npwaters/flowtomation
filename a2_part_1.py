@@ -13,6 +13,16 @@ import enum
 # ------------------------------------------------------------------------------
 # part 2
 
+supported_data_types = [
+    "datetime",
+    "boolean",
+    "number",
+    "string",
+    "dictionary",
+    "array"
+]
+
+
 class Direction(enum.Enum):
     INBOUND = "input"
     OUTBOUND = "output"
@@ -30,11 +40,19 @@ def verify_service_data_format(
     :return:
     """
     # get the data type
-    required_data_type = services.get(service)\
-        .get(direction)\
-        .get("type")
+    data_type_configuration = services.get(service)\
+        .get(direction)
+    required_data_type = data_type_configuration.get("type")
+    # verify a data type is configured and it is supported
+    if not required_data_type or required_data_type not in supported_data_types:
+        return False
+    # else:
+    #     # get the required format, if one exists
+    #     pass
+    # get the data payload
+    # data = service_data.get("data")
 
-    # get the required format, if one exists
+
 
     return
 
