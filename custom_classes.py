@@ -1,6 +1,7 @@
 import validate_time
 from custom_classes_part_2 import AppService
 import sys
+import json
 
 
 # class TimeOfDayService():
@@ -13,6 +14,9 @@ class TimeOfDayService(AppService):
         # self.result = "False"
         # self.status = 0
         # self.input_time = input_time
+        input_time = json.loads(
+            input_time
+        ).get("data")
         self.validated_time = validate_time.convert_datetime_string(
             input_time,
         )
