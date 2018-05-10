@@ -12,15 +12,17 @@ import enum
 
 # ------------------------------------------------------------------------------
 # part 2
+import numbers
+import validate_time
 
-supported_data_types = [
-    "datetime",
-    "boolean",
-    "number",
-    "string",
-    "dictionary",
-    "array"
-]
+supported_data_types = {
+    "number": numbers.Number,
+    "string": str,
+    "dictionary": dict,
+    "array": list,
+    "boolean": bool,
+    "time": datetime.datetime
+}
 
 
 class Direction(enum.Enum):
@@ -45,19 +47,32 @@ def verify_service_data_format(
     required_data_type = data_type_configuration.get("type")
     # verify a data type is configured and it is supported
     if not required_data_type or required_data_type not in supported_data_types:
+        # TODO: provide feedback?
         return False
     # else:
     #     # get the required format, if one exists
     #     pass
     # get the data payload
     if service_data:
-        data = json.loads(service_data.decode("utf-8"))\
-            .get("data")
-        converted_data = required_data_type(data)
+        # service_data = service_data.decode("utf-8")
+        try:
+            data = json.loads(service_data.decode("utf-8")).get("data")
+        except json.JSONDecodeError as e:
+            return False
 
+        # we now have the service input/output data
+        # the data type we have needs to be 'tested' against the configured data type
+        if required_data_type != "time":
+            result = isinstance(
+                data,
+                supported_data_types.get(required_data_type)
+            )
+        else:
+            result = validate_time.convert_datetime_string_part2(data)
+        return result
 
+    return False
 
-    return
 
 # def get_configuration_part_2(
 #         service,
@@ -150,12 +165,13 @@ def process_flow(f, flows, services):
                 check=True
             )
             service_output = result.stdout
-            verify_service_data_format(
+            if not verify_service_data_format(
                 service,
                 services,
                 service_output,
                 Direction.OUTBOUND.value
-            )
+            ):
+                return False
         except subprocess.CalledProcessError as e:
             result = e
             pass

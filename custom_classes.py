@@ -36,7 +36,9 @@ class Morning(TimeOfDayService):
         if validated_time.hour < 12:
             # self.result = "True"
             # part 2
-            self.app_service_output["data"] = "True"
+            self.app_service_output["data"] = True
+        else:
+            self.app_service_output["data"] = False
 
 
 class Afternoon(TimeOfDayService):
