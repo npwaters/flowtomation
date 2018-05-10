@@ -53,6 +53,7 @@ def verify_service_data_format(
     #     # get the required format, if one exists
     #     pass
     # get the data payload
+    # TODO: move this check to the top?
     if service_data:
         # service_data = service_data.decode("utf-8")
         try:
@@ -144,12 +145,12 @@ def process_flow(f, flows, services):
     for service in flows.get(f):
         # part 2 only
         # verify service input i.e. 'service_output'
-        # verify_service_data_format(
-        #     service,
-        #     services,
-        #     service_output,
-        #     Direction.INBOUND.value
-        # )
+        verify_service_data_format(
+            service,
+            services,
+            service_output,
+            Direction.INBOUND.value
+        )
 
         # handle a possible exception if the service exits with a non-zero exit code
         try:

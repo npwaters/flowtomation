@@ -7,7 +7,7 @@
 	},
 	"parameters": "",
 	"input": {
-		"type": "datetime"
+		"type": "time"
 	},
 	"output": {
 		"type": "boolean"
