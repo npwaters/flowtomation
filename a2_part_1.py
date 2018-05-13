@@ -9,6 +9,7 @@ import time
 import datetime
 import os
 import enum
+import utilities
 
 # ------------------------------------------------------------------------------
 # part 2
@@ -143,8 +144,10 @@ def process_flow(f, flows, services):
     # store our service output to use as input for the next service
     service_output = ''
     for service in flows.get(f):
+        # TODO: check for service_output here instead of 'verify_service_data_format'
         # part 2 only
         # verify service input i.e. 'service_output'
+        # TODO: handle exception raised by 'verify_service_data_format'
         verify_service_data_format(
             service,
             services,
@@ -186,17 +189,20 @@ def process_flow(f, flows, services):
     return True
 
 
-
-
 def main():
+    # setup logging
+    logger = utilities.setup_logger("CPT223 A2")
+
     # get the program configuration
     # TODO: handle invalid json etc per specs
     configuration = json.load(
         open("test.json"),
         object_pairs_hook=OrderedDict
     )
+    logger.info("configuration loaded!")
     # get the flow configuration
     flows = configuration.get("flows")
+    logger.info("got the flows!")
 
     # get the services
     # part 1
@@ -204,24 +210,27 @@ def main():
 
     # part 2
     services = get_services_part_2()
-
-
+    logger.info("got the services!")
     # process the flows
-
     while True:
+        logger.info("starting flows")
         for flow, service_list in flows.items():
+            logger.info("running flow: {0}".format(flow))
             flow_status = ""
             start_time = datetime.datetime.now()
+            # check the status of the flow
+            log_line_prefix = "flow {0} status:".format(flow)
             if process_flow(flow, flows, services):
                 flow_status = "successful!"
+                logger.info("{0} successful!".format(log_line_prefix))
             else:
                 flow_status = "failed!"
+                logger.info("{0} failed!".format(log_line_prefix))
             time_taken = datetime.datetime.now() - start_time
             continue
         time.sleep(1)
 
     sys.exit()
-
 
 
 if __name__ == "__main__":

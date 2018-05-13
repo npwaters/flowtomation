@@ -4,8 +4,6 @@ import sys
 import json
 
 
-# class TimeOfDayService():
-# part 2
 class TimeOfDayService(AppService):
     def __init__(self, input_time):
         # set result to False
