@@ -90,7 +90,10 @@ def get_services_part_2():
     for root, dirs, files in os.walk("services"):
         for file in files:
             if file == "config.json":
+                # check if the service exists
+
                 result = "found!"
+                # TODO: verify config file (JSON) format
                 service = json.load(
                     open(
                         os.path.join(root, file)
@@ -196,24 +199,47 @@ def main():
 
     # get the program configuration
     # TODO: handle invalid json etc per specs
-    configuration = json.load(
-        open("ifttt.json"),
-        object_pairs_hook=OrderedDict
-    )
-    logger.info("configuration loaded!")
-    # get the flow configuration
-    flows = configuration.get("flows")
-    logger.info("got the flows!")
+    # part 1
+    # configuration = json.load(
+    #     open("ifttt.json"),
+    #     object_pairs_hook=OrderedDict
+    # )
+    # logger.info("configuration loaded!")
+    # # get the flow configuration
+    # flows = configuration.get("flows")
+    # logger.info("got the flows!")
 
     # get the services
+    services = {}
     # part 1
     # services = configuration.get("services")
 
     # part 2
+    file_information = {}
+    flow_configuration_file = "ifttt.json"
     services = get_services_part_2()
+
     logger.info("got the services!")
     # process the flows
     while True:
+        # part 2
+        # update/check the flow configuration file modified time
+        modified = utilities.check_file_modified(
+            flow_configuration_file,
+            file_information,
+            logger
+        )
+        if modified:
+            # load the flow configuration
+            configuration = json.load(
+                open("ifttt.json"),
+                object_pairs_hook=OrderedDict
+            )
+            logger.info("configuration loaded!")
+            # get the flow configuration
+            flows = configuration.get("flows")
+            logger.info("got the flows!")
+
         logger.info("starting flows")
         for flow, service_list in flows.items():
             logger.info("running flow: {0}".format(flow))
