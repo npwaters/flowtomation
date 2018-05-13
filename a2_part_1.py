@@ -60,6 +60,7 @@ def verify_service_data_format(
         try:
             data = json.loads(service_data.decode("utf-8")).get("data")
         except json.JSONDecodeError as e:
+            # TODO: create function to extract required output from 'JSONDecodeError' exception
             return False
 
         # we now have the service input/output data
@@ -196,7 +197,7 @@ def main():
     # get the program configuration
     # TODO: handle invalid json etc per specs
     configuration = json.load(
-        open("test.json"),
+        open("ifttt.json"),
         object_pairs_hook=OrderedDict
     )
     logger.info("configuration loaded!")
