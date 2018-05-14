@@ -108,6 +108,7 @@ def get_services_part_2(
                     log_line_prefix = "service: {0} -".format(service_name)
                     if utilities.load_service(
                         services,
+                        service_name,
                         config_file_path,
                         logger
                     ):
@@ -261,54 +262,57 @@ def main():
 
     # process the flows
     while True:
-        # part 2
-        # update/check the flow configuration file modified time
-        modified = utilities.check_file_modified(
-            flow_configuration_file,
-            file_information,
-            logger
-        )
-        if modified:
-            # load the flow configuration
-            try:
-                configuration = json.load(
-                    open(flow_configuration_file),
-                    object_pairs_hook=OrderedDict
-                )
-                logger.info("configuration loaded!")
-            except json.JSONDecodeError as e:
-                error_message = "Failed to load configuration - Invalid JSON detected on line: {0}".format(e.lineno - 1)
-                logger.critical(error_message)
-                sys.exit(error_message)
+        logger.info("waiting for next flow start time ...")
+        if utilities.flow_start_time():
 
-            # get the flow configuration
-            flows = configuration.get("flows")
-            logger.info("got the flows!")
-        # update/check the service configuration files modified time
-        # and load any new/updated service configurations
-        get_services_part_2(
-            services,
-            file_information,
-            logger
-        )
-        logger.info("got the services!")
+            # part 2
+            # update/check the flow configuration file modified time
+            modified = utilities.check_file_modified(
+                flow_configuration_file,
+                file_information,
+                logger
+            )
+            if modified:
+                # load the flow configuration
+                try:
+                    configuration = json.load(
+                        open(flow_configuration_file),
+                        object_pairs_hook=OrderedDict
+                    )
+                    logger.info("configuration loaded!")
+                except json.JSONDecodeError as e:
+                    error_message = "Failed to load configuration - Invalid JSON detected on line: {0}".format(e.lineno - 1)
+                    logger.critical(error_message)
+                    sys.exit(error_message)
 
-        logger.info("starting flows")
-        for flow, service_list in flows.items():
-            logger.info("running flow: {0}".format(flow))
-            flow_status = ""
-            start_time = datetime.datetime.now()
-            # check the status of the flow
-            log_line_prefix = "flow: {0} status -".format(flow)
-            if process_flow(flow, flows, services, logger):
-                flow_status = "successful!"
-                logger.info("{0} successful!".format(log_line_prefix))
-            else:
-                flow_status = "failed!"
-                logger.info("{0} failed!".format(log_line_prefix))
-            time_taken = datetime.datetime.now() - start_time
-            continue
-        time.sleep(1)
+                # get the flow configuration
+                flows = configuration.get("flows")
+                logger.info("got the flows!")
+            # update/check the service configuration files modified time
+            # and load any new/updated service configurations
+            get_services_part_2(
+                services,
+                file_information,
+                logger
+            )
+            logger.info("got the services!")
+
+            logger.info("starting flows")
+            for flow, service_list in flows.items():
+                logger.info("running flow: {0}".format(flow))
+                flow_status = ""
+                start_time = datetime.datetime.now()
+                # check the status of the flow
+                log_line_prefix = "flow: {0} status -".format(flow)
+                if process_flow(flow, flows, services, logger):
+                    flow_status = "successful!"
+                    logger.info("{0} successful!".format(log_line_prefix))
+                else:
+                    flow_status = "failed!"
+                    logger.info("{0} failed!".format(log_line_prefix))
+                time_taken = datetime.datetime.now() - start_time
+                continue
+        # time.sleep(1)
 
     sys.exit()
 

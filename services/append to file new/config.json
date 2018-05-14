@@ -3,7 +3,7 @@
 	"program": "./append.py",
 	"description": "new version of append to file",
 	"configuration": {
-		"any":
+		"any": "required key value pairs"
 	},
 	"parameters": "times.txt",
 	"input": {

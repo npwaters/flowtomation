@@ -3,6 +3,8 @@ import sys
 import os
 import json
 from collections import OrderedDict
+import time
+import datetime
 
 
 def setup_logger(
@@ -64,6 +66,7 @@ def check_file_modified(
 
 def load_service(
         services,
+        service_name,
         config_file,
         logger
 ):
@@ -79,6 +82,9 @@ def load_service(
     except json.JSONDecodeError as e:
         error_message = "Failed to load configuration - Invalid JSON detected on line: {0}".format(e.lineno - 1)
         logger.warning(error_message)
+        # remove the service if it is already installed
+        if service_name in services:
+            del services[service_name]
         return False
     else:
         return True
@@ -107,3 +113,12 @@ def flow_ready_to_run(
         logger.info("flow: {0} - is ready to run".format(flow))
         return True
 
+
+def flow_start_time():
+
+    second = None
+
+    while second != 0:
+        second = datetime.datetime.now().second
+        time.sleep(1)
+    return True
