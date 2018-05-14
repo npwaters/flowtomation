@@ -10,6 +10,7 @@
 		"type": ""
 	},
 	"output": {
-		"type": "time"
+		"type": "time",
+		"format": "%d/%m/%Y %H:%M:%S"
 	}
 }

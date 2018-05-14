@@ -116,9 +116,12 @@ def flow_ready_to_run(
 
 def flow_start_time():
 
-    second = None
-
-    while second != 0:
+    time_to_start = False
+    while not time_to_start:
         second = datetime.datetime.now().second
-        time.sleep(1)
+        if second != 0:
+            print(second)
+            time.sleep(1)
+        else:
+            time_to_start = True
     return True

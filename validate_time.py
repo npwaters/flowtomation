@@ -14,11 +14,14 @@ def convert_datetime_string(input_time):
         return False
 
 
-def convert_datetime_string_part2(input_time):
+def convert_datetime_string_part2(
+        input_time,
+        time_format="%H:%M:%S"
+):
     try:
         validated_time = datetime.datetime.strptime(
             input_time.rstrip(),
-            "%d/%m/%Y %H:%M:%S"
+            time_format
         )
         # part 2
         return True

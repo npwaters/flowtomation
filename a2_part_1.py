@@ -35,7 +35,8 @@ def verify_service_data_format(
         service,
         services,
         service_data,
-        direction
+        direction,
+        logger
 ):
     """
     -service input will be the output of the preceding service in the flow
@@ -46,35 +47,41 @@ def verify_service_data_format(
     data_type_configuration = services.get(service)\
         .get(direction)
     required_data_type = data_type_configuration.get("type")
+    required_data_format = None
+    # get the required format, if one exists
+    if "format" in data_type_configuration:
+        required_data_format = data_type_configuration.get("format")
     # verify a data type is configured and it is supported
-    if not required_data_type or required_data_type not in supported_data_types:
+    if not required_data_type:
         # TODO: provide feedback?
+        logger.info("service: {0} - does not have an {1} data type configured"
+                    .format(service, direction))
+    elif required_data_type not in supported_data_types:
+        logger.error("service: {0} - unsupported data type!"
+                     .format(service, direction))
         return False
-    # else:
-    #     # get the required format, if one exists
-    #     pass
+
     # get the data payload
-    # TODO: move this check to the top?
-    if service_data:
-        # service_data = service_data.decode("utf-8")
-        try:
-            data = json.loads(service_data.decode("utf-8")).get("data")
-        except json.JSONDecodeError as e:
-            # TODO: create function to extract required output from 'JSONDecodeError' exception
-            return False
+    # service_data = service_data.decode("utf-8")
+    try:
+        data = json.loads(service_data.decode("utf-8")).get("data")
+    except json.JSONDecodeError as e:
+        # TODO: create function to extract required output from 'JSONDecodeError' exception
+        return False
 
-        # we now have the service input/output data
-        # the data type we have needs to be 'tested' against the configured data type
-        if required_data_type != "time":
-            result = isinstance(
-                data,
-                supported_data_types.get(required_data_type)
-            )
-        else:
+    # we now have the service input/output data
+    # the data type we have needs to be 'tested' against the configured data type
+    if required_data_type != "time":
+        result = isinstance(
+            data,
+            supported_data_types.get(required_data_type)
+        )
+    else:
+        if not required_data_format:
             result = validate_time.convert_datetime_string_part2(data)
-        return result
-
-    return False
+        else:
+            result = validate_time.convert_datetime_string_part2(data, required_data_format)
+    return result
 
 
 # def get_configuration_part_2(
@@ -118,13 +125,6 @@ def get_services_part_2(
                         logger.error("{0} failed to load!".format(log_line_prefix))
         continue
     # return services
-
-
-def remove_services(
-
-):
-    pass
-
 
 # # ------------------------------------------------------------------------------
 #
@@ -185,12 +185,14 @@ def process_flow(f, flows, services, logger):
         # part 2 only
         # verify service input i.e. 'service_output'
         # TODO: handle exception raised by 'verify_service_data_format'
-        verify_service_data_format(
+        if service_output and not verify_service_data_format(
             service,
             services,
             service_output,
-            Direction.INBOUND.value
-        )
+            Direction.INBOUND.value,
+            logger
+        ):
+            return False
 
         # handle a possible exception if the service exits with a non-zero exit code
         # TODO: test other possible exceptions:
@@ -213,7 +215,8 @@ def process_flow(f, flows, services, logger):
                 service,
                 services,
                 service_output,
-                Direction.OUTBOUND.value
+                Direction.OUTBOUND.value,
+                logger
             ):
                 return False
         except subprocess.CalledProcessError as e:
@@ -262,9 +265,11 @@ def main():
 
     # process the flows
     while True:
+        # TODO: take action if the time taken of previous run is > 60 seconds??
+
         logger.info("waiting for next flow start time ...")
         if utilities.flow_start_time():
-
+            logger.info("it's go time!")
             # part 2
             # update/check the flow configuration file modified time
             modified = utilities.check_file_modified(
@@ -281,7 +286,8 @@ def main():
                     )
                     logger.info("configuration loaded!")
                 except json.JSONDecodeError as e:
-                    error_message = "Failed to load configuration - Invalid JSON detected on line: {0}".format(e.lineno - 1)
+                    error_message = "Failed to load configuration - Invalid JSON detected on line: {0}"\
+                        .format(e.lineno - 1)
                     logger.critical(error_message)
                     sys.exit(error_message)
 
