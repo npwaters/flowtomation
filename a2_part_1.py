@@ -83,26 +83,33 @@ def verify_service_data_format(
 # ):
 #     pass
 #
-def get_services_part_2():
+def get_services_part_2(
+        services,
+        file_information,
+        logger
+):
     # search recursively for config.json files in 'services' directory
     result = ''
-    services = {}
+    # services = {}
     for root, dirs, files in os.walk("services"):
         for file in files:
             if file == "config.json":
-                # check if the service exists
-
-                result = "found!"
-                # TODO: verify config file (JSON) format
-                service = json.load(
-                    open(
-                        os.path.join(root, file)
-                    ),
-                    object_pairs_hook=OrderedDict
-                )
-                services[service.get("name")] = service
+                # check if file information exists or the config has ben modified
+                # service name is the parent directory name
+                config_file_path = os.path.join(root, file)
+                if utilities.check_file_modified(
+                    config_file_path,
+                    file_information,
+                    logger
+                ):
+                    # load the service
+                    # TODO: handle the result (return value 'True' or 'False')
+                    utilities.load_service(
+                        services,
+                        config_file_path
+                    )
         continue
-    return services
+    # return services
 
 # # ------------------------------------------------------------------------------
 #
@@ -160,6 +167,9 @@ def process_flow(f, flows, services):
         )
 
         # handle a possible exception if the service exits with a non-zero exit code
+        # TODO: test other possible exceptions:
+        # -service file/command not found
+        # -permission issue on service file
         try:
             result = subprocess.run(
                 get_configuration_part_1(
@@ -217,9 +227,7 @@ def main():
     # part 2
     file_information = {}
     flow_configuration_file = "ifttt.json"
-    services = get_services_part_2()
 
-    logger.info("got the services!")
     # process the flows
     while True:
         # part 2
@@ -239,6 +247,14 @@ def main():
             # get the flow configuration
             flows = configuration.get("flows")
             logger.info("got the flows!")
+        # update/check the service configuration files modified time
+        # and load any new/updated service configurations
+        get_services_part_2(
+            services,
+            file_information,
+            logger
+        )
+        logger.info("got the services!")
 
         logger.info("starting flows")
         for flow, service_list in flows.items():
