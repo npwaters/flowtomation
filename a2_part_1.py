@@ -104,12 +104,26 @@ def get_services_part_2(
                 ):
                     # load the service
                     # TODO: handle the result (return value 'True' or 'False')
-                    utilities.load_service(
+                    service_name = os.path.basename(root)
+                    log_line_prefix = "service: {0} -".format(service_name)
+                    if utilities.load_service(
                         services,
-                        config_file_path
-                    )
+                        config_file_path,
+                        logger
+                    ):
+                        logger.info("{0} loaded successfully!".format(log_line_prefix))
+
+                    else:
+                        logger.error("{0} failed to load!".format(log_line_prefix))
         continue
     # return services
+
+
+def remove_services(
+
+):
+    pass
+
 
 # # ------------------------------------------------------------------------------
 #
@@ -150,10 +164,21 @@ def get_configuration_part_1(
     return command_line
 
 
-def process_flow(f, flows, services):
+def process_flow(f, flows, services, logger):
     # TODO: docstring
     # store our service output to use as input for the next service
     service_output = ''
+
+    # part 2
+    # check if all services listed in the flow loaded successfully
+    if not utilities.flow_ready_to_run(
+            services,
+            flows,
+            f,
+            logger
+    ):
+        return False
+
     for service in flows.get(f):
         # TODO: check for service_output here instead of 'verify_service_data_format'
         # part 2 only
@@ -210,11 +235,17 @@ def main():
     # get the program configuration
     # TODO: handle invalid json etc per specs
     # part 1
-    # configuration = json.load(
-    #     open("ifttt.json"),
-    #     object_pairs_hook=OrderedDict
-    # )
-    # logger.info("configuration loaded!")
+    # program_configuration_file = "test.json"
+    # try:
+    #     configuration = json.load(
+    #         open(program_configuration_file),
+    #         object_pairs_hook=OrderedDict
+    #     )
+    #     logger.info("configuration loaded!")
+    # except json.JSONDecodeError as e:
+    #     error_message = "Failed to load configuration - Invalid JSON detected on line: {0}".format(e.lineno - 1)
+    #     logger.critical(error_message)
+    #     sys.exit(error_message)
     # # get the flow configuration
     # flows = configuration.get("flows")
     # logger.info("got the flows!")
@@ -239,11 +270,17 @@ def main():
         )
         if modified:
             # load the flow configuration
-            configuration = json.load(
-                open("ifttt.json"),
-                object_pairs_hook=OrderedDict
-            )
-            logger.info("configuration loaded!")
+            try:
+                configuration = json.load(
+                    open(flow_configuration_file),
+                    object_pairs_hook=OrderedDict
+                )
+                logger.info("configuration loaded!")
+            except json.JSONDecodeError as e:
+                error_message = "Failed to load configuration - Invalid JSON detected on line: {0}".format(e.lineno - 1)
+                logger.critical(error_message)
+                sys.exit(error_message)
+
             # get the flow configuration
             flows = configuration.get("flows")
             logger.info("got the flows!")
@@ -262,8 +299,8 @@ def main():
             flow_status = ""
             start_time = datetime.datetime.now()
             # check the status of the flow
-            log_line_prefix = "flow {0} status:".format(flow)
-            if process_flow(flow, flows, services):
+            log_line_prefix = "flow: {0} status -".format(flow)
+            if process_flow(flow, flows, services, logger):
                 flow_status = "successful!"
                 logger.info("{0} successful!".format(log_line_prefix))
             else:

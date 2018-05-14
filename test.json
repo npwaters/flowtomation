@@ -6,7 +6,8 @@
     },
     "append to file": {
       "program": "append to file/append.py",
-      "parameters": "times.txt"
+      "parameters":
+			  
     },
 	  "is morning": {
 		  "program": "is morning/morning.py",
@@ -20,7 +21,6 @@
 		  "program": "echo",
 		  "parameters": "input is $$"
 	  },
-	  
   },
   "flows": {
 	  "check time of day": [

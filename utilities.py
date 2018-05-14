@@ -64,13 +64,46 @@ def check_file_modified(
 
 def load_service(
         services,
-        config_file
+        config_file,
+        logger
 ):
     # TODO: verify config file (JSON) format
-    service = json.load(
-        open(
-            config_file
-        ),
-        object_pairs_hook=OrderedDict
-    )
-    services[service.get("name")] = service
+    try:
+        service = json.load(
+            open(
+                config_file
+            ),
+            object_pairs_hook=OrderedDict
+        )
+        services[service.get("name")] = service
+    except json.JSONDecodeError as e:
+        error_message = "Failed to load configuration - Invalid JSON detected on line: {0}".format(e.lineno - 1)
+        logger.warning(error_message)
+        return False
+    else:
+        return True
+
+
+def flow_ready_to_run(
+        services,
+        flows,
+        flow,
+        logger
+):
+    flow_ready = True
+    missing_services = []
+    logger.info("checking availability of services configured in flow: {0}".format(flow))
+    for service in flows.get(flow):
+        if not services.get(service):
+            logger.error("service: {0} - does not exist!".format(service))
+            missing_services.append(service)
+            flow_ready = False
+    if not flow_ready:
+        logger.warning("flow: {0} - will be skipped due to missing service(s):".format(flow))
+        for m in missing_services:
+            logger.info(" - {0}".format(m))
+        return False
+    else:
+        logger.info("flow: {0} - is ready to run".format(flow))
+        return True
+
