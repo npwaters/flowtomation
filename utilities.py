@@ -7,6 +7,23 @@ import time
 import datetime
 
 
+required_keys = {
+        "program_configuration_1": [
+            "services",
+            "flows"
+        ],
+        "program_configuration_2": [
+            "flows"
+        ],
+        "service_configuration": [
+            "name",
+            "description",
+            "program"
+        ]
+    }
+
+
+# TODO: configure file rotation
 def setup_logger(
         name,
         log_level="INFO"
@@ -62,6 +79,32 @@ def check_file_modified(
     else:
         logger.info("no changes detected since last run for file: {0}".format(file_name))
         return False
+
+
+# TODO: define a function for each test
+# e.g.
+# - required keys (list of keys can cover both the below tests):
+# -- program configuration (required sections)
+# -- service configuration (required fields)
+# - flow configuration (more than 1 flow)
+
+def verify_configuration(
+        configuration,
+        required_keys,
+        logger
+):
+    verification_failed = False
+    # store the results in a dictionary?
+    results = {}
+    for key in required_keys:
+        results[key] = key in configuration
+        if key not in configuration:
+            logger.error("missing mandatory field in configuration")
+            if not verification_failed:
+                verification_failed = True
+    if verification_failed:
+        return False
+    return True
 
 
 def load_service(

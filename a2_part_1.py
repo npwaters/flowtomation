@@ -16,6 +16,7 @@ import utilities
 import numbers
 import validate_time
 
+
 supported_data_types = {
     "number": numbers.Number,
     "string": str,
@@ -98,6 +99,7 @@ def get_services_part_2(
     # search recursively for config.json files in 'services' directory
     result = ''
     # services = {}
+    get_failed = False
     for root, dirs, files in os.walk("services"):
         for file in files:
             if file == "config.json":
@@ -113,6 +115,7 @@ def get_services_part_2(
                     # TODO: handle the result (return value 'True' or 'False')
                     service_name = os.path.basename(root)
                     log_line_prefix = "service: {0} -".format(service_name)
+                    # verify if valid JSON via 'load_service'
                     if utilities.load_service(
                         services,
                         service_name,
@@ -123,8 +126,20 @@ def get_services_part_2(
 
                     else:
                         logger.error("{0} failed to load!".format(log_line_prefix))
+                        return False
+                    # verify mandatory fields (configuration)
+                    if utilities.verify_configuration(
+                            services.get(service_name),
+                            utilities.required_keys.get("service_configuration"),
+                            logger
+                    ):
+                        logger.info("{0} passed mandatory field verification!".format(log_line_prefix))
+                    else:
+                        logger.error("{0} failed mandatory field verification".format(log_line_prefix))
+                        return False
+
         continue
-    # return services
+    return True
 
 # # ------------------------------------------------------------------------------
 #
@@ -291,17 +306,25 @@ def main():
                     logger.critical(error_message)
                     sys.exit(error_message)
 
+                # verify the mandatory configuration fields
+                utilities.verify_configuration(
+                    configuration,
+                    utilities.required_keys.get("program_configuration_1"),
+                    logger
+                )
                 # get the flow configuration
                 flows = configuration.get("flows")
                 logger.info("got the flows!")
             # update/check the service configuration files modified time
             # and load any new/updated service configurations
-            get_services_part_2(
+            if get_services_part_2(
                 services,
                 file_information,
                 logger
-            )
-            logger.info("got the services!")
+            ):
+                logger.info("got the services!")
+            else:
+                sys.exit("Error encountered loading services - see log file for details")
 
             logger.info("starting flows")
             for flow, service_list in flows.items():
