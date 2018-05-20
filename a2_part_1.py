@@ -65,10 +65,17 @@ def verify_service_data_format(
     # get the data payload
     # service_data = service_data.decode("utf-8")
     try:
-        data = json.loads(service_data.decode("utf-8")).get("data")
+        json_message = json.loads(service_data.decode("utf-8"))
     except json.JSONDecodeError as e:
         # TODO: create function to extract required output from 'JSONDecodeError' exception
-        logger.error("service: {0} - invalid JSON message provided!")
+        logger.error("service: {0} - invalid JSON message provided!".format(service))
+        return False
+
+    # verify if the message contains the correct 'data' field
+    data = json_message.get("data")
+    if data is None:
+        logger.error("service: {0} - JSON message does not contain the expected 'data' field"
+                     .format(service))
         return False
 
     # we now have the service input/output data
@@ -257,10 +264,10 @@ def main():
 
     flow_configuration_file = ''
     # get the configuration file from the command line if one supplied
-    command_line_argument = sys.argv[1]
-    if command_line_argument:
-        flow_configuration_file = command_line_argument
-    else:
+    try:
+        flow_configuration_file = sys.argv[1]
+    except IndexError:
+        logger.info("configuration file no supplied as argument - using default")
         flow_configuration_file = "ifttt.json"
 
     # get the program configuration
@@ -326,7 +333,7 @@ def main():
                     error_message = "Program configuration file missing mandatory section"
                     logger.critical(error_message)
                     sys.exit(error_message)
-                    
+
                 # get the flow configuration
                 flows = configuration.get("flows")
                 logger.info("got the flows!")
