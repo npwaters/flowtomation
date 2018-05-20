@@ -1,0 +1,14 @@
+{
+  "monkeys": {
+	  "check time of day": [
+		  "time of day",
+		  "is morning"
+		  ],
+	  "Append time of day": [
+		  "time of day",
+		  "echo",
+		  "append to file",
+		  "append to file new"
+		  ]
+	  }
+}

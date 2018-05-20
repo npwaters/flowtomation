@@ -1,0 +1,15 @@
+{
+	"name": "fail",
+	"program": "./fail.py",
+	"description": "",
+	"configuration": {
+		"any": "required key value pairs"
+	},
+	"parameters": "",
+	"input": {
+		"type": ""
+	},
+	"output": {
+		"type": ""
+	}
+}

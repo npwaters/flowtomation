@@ -1,15 +1,15 @@
 {
-	"name": "echo",
-	"program": "echo",
+	"name": "long running",
+	"program": "./long.py",
 	"description": "",
 	"configuration": {
 		"any": "required key value pairs"
 	},
-	"parameters": "current time: $$",
+	"parameters": "",
 	"input": {
-		"type": "string"
+		"type": ""
 	},
 	"output": {
-		"type": "string"
+		"type": ""
 	}
 }
