@@ -54,9 +54,9 @@ def verify_service_data_format(
         required_data_format = data_type_configuration.get("format")
     # verify a data type is configured and it is supported
     if not required_data_type:
-        # TODO: provide feedback?
         logger.warning("service: {0} - does not have an {1} data type configured"
                     .format(service, direction))
+        return False
     elif required_data_type not in supported_data_types:
         logger.error("service: {0} - unsupported data type!"
                      .format(service, direction))
@@ -67,7 +67,6 @@ def verify_service_data_format(
     try:
         json_message = json.loads(service_data.decode("utf-8"))
     except json.JSONDecodeError as e:
-        # TODO: create function to extract required output from 'JSONDecodeError' exception
         logger.error("service: {0} - invalid JSON message provided!".format(service))
         return False
 
@@ -85,11 +84,14 @@ def verify_service_data_format(
             data,
             supported_data_types.get(required_data_type)
         )
+        if not result:
+            logger.error("{0} data type does not match required data type"
+                         .format(direction))
     else:
         if not required_data_format:
-            result = validate_time.convert_datetime_string_part2(data)
+            result = validate_time.convert_datetime_string_part2(data, logger)
         else:
-            result = validate_time.convert_datetime_string_part2(data, required_data_format)
+            result = validate_time.convert_datetime_string_part2(data, logger, required_data_format)
     return result
 
 
@@ -183,7 +185,6 @@ def get_command_line(
 
 
 def process_flow(f, flows, services, logger):
-    # TODO: docstring
     # store our service output to use as input for the next service
     service_output = ''
 
@@ -205,6 +206,8 @@ def process_flow(f, flows, services, logger):
             Direction.INBOUND.value,
             logger
         ):
+            logger.error("service: {0} - failed input data type verification"
+                         .format(service))
             return False
 
         # handle a possible exception if the service exits with a non-zero exit code
@@ -232,6 +235,8 @@ def process_flow(f, flows, services, logger):
                 Direction.OUTBOUND.value,
                 logger
             ):
+                logger.error("service: {0} - failed output data type verification!"
+                             .format(service))
                 return False
         except (
                 subprocess.CalledProcessError,
@@ -275,8 +280,6 @@ def main():
 
     # process the flows
     while True:
-        # TODO: take action if the time taken of previous run is > 60 seconds??
-
         logger.info("waiting for next flow start time ...")
         if utilities.flow_start_time():
             logger.info("it's go time!")

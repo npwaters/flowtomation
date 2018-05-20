@@ -16,6 +16,7 @@ def convert_datetime_string(input_time):
 
 def convert_datetime_string_part2(
         input_time,
+        logger,
         time_format="%H:%M:%S"
 ):
     try:
@@ -23,9 +24,9 @@ def convert_datetime_string_part2(
             input_time.rstrip(),
             time_format
         )
-        # part 2
         return True
 
     except ValueError:
         # exit with status code
+        logger.error("input time does not match required time format")
         return False

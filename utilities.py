@@ -61,7 +61,6 @@ def check_file_modified(
     result = ''
     file_info = os.stat(file_name)
     file_current_modified_time = file_info.st_mtime
-    # TODO: do we need this check?
 
     if not file_information.get(file_name):
         file_information[file_name] = {}
@@ -80,13 +79,6 @@ def check_file_modified(
         logger.info("no changes detected since last run for file: {0}".format(file_name))
         return False
 
-
-# TODO: define a function for each test
-# e.g.
-# - required keys (list of keys can cover both the below tests):
-# -- program configuration (required sections)
-# -- service configuration (required fields)
-# - flow configuration (more than 1 flow)
 
 def verify_configuration(
         configuration,
@@ -112,7 +104,6 @@ def load_service(
         config_file,
         logger
 ):
-    # TODO: verify config file (JSON) format
     try:
         service = json.load(
             open(
@@ -163,7 +154,7 @@ def flow_start_time():
     while not time_to_start:
         second = datetime.datetime.now().second
         if second != 0:
-            print(second)
+            print(second)  # TODO: remove
             time.sleep(1)
         else:
             time_to_start = True

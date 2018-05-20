@@ -25,7 +25,7 @@ def get_command_line(
     parameters = services.get(service)["parameters"]
     # check for special symbol '$$' in parameters
     if "$$" in parameters:
-        parameters = parameters.replace("$$", service_output)
+        parameters = parameters.replace("$$", service_output.decode("utf-8"))
 
     command_line = shlex.split(
                     '%s %s' % (
@@ -37,7 +37,6 @@ def get_command_line(
 
 
 def process_flow(f, flows, services, logger):
-    # TODO: docstring
     # store our service output to use as input for the next service
     service_output = ''
 
@@ -105,8 +104,6 @@ def main():
         program_configuration_file = "ifttt.json"
 
     # get the program configuration
-    # TODO: handle invalid json etc per specs
-    # part 1
     try:
         configuration = json.load(
             open(program_configuration_file),

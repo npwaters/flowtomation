@@ -5,7 +5,7 @@
       "parameters": "'+%d/%m/%Y %H:%M:%S'"
     },
     "append to file": {
-      "program": "append to file/append.py",
+      "program": "./append.py",
       "parameters": "times.txt"
     },
 	  "is morning": {
@@ -18,7 +18,7 @@
 	  },
 	  "echo": {
 		  "program": "echo",
-		  "parameters": "input is $$"
+		  "parameters": "current time: $$"
 	  }
 	  
   },
@@ -30,8 +30,7 @@
 	  "Append time of day": [
 		  "time of day",
 		  "echo",
-		  "append to file",
-		  "append to file new"
+		  "append to file"
 		  ]
 	  }
 }
