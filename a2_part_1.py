@@ -136,9 +136,12 @@ def get_services_part_2(
                         logger.info("{0} passed mandatory field verification!".format(log_line_prefix))
                     else:
                         logger.error("{0} failed mandatory field verification".format(log_line_prefix))
-                        return False
-
+                        # remove the service from running configuration
+                        del services[service_name]
+                        get_failed = True
         continue
+    if get_failed:
+        return False
     return True
 
 # # ------------------------------------------------------------------------------
@@ -324,7 +327,8 @@ def main():
             ):
                 logger.info("got the services!")
             else:
-                sys.exit("Error encountered loading services - see log file for details")
+                logger.warning("Error encountered getting services - please review the service configurations")
+                # sys.exit("Error encountered loading services - see log file for details")
 
             logger.info("starting flows")
             for flow, service_list in flows.items():

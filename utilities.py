@@ -93,18 +93,17 @@ def verify_configuration(
         required_keys,
         logger
 ):
-    verification_failed = False
+    verification_passed = True
     # store the results in a dictionary?
     results = {}
     for key in required_keys:
         results[key] = key in configuration
         if key not in configuration:
             logger.error("missing mandatory field in configuration")
-            if not verification_failed:
-                verification_failed = True
-    if verification_failed:
-        return False
-    return True
+            verification_passed = False
+    if verification_passed:
+        return True
+    return False
 
 
 def load_service(
@@ -159,6 +158,7 @@ def flow_ready_to_run(
 
 def flow_start_time():
 
+    return True  # TODO: remove
     time_to_start = False
     while not time_to_start:
         second = datetime.datetime.now().second
