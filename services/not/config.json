@@ -1,0 +1,15 @@
+{
+	"name": "not",
+	"program": "./not.py",
+	"description": "",
+	"configuration": {
+		"any": "required key value pairs"
+	},
+	"parameters": "",
+	"input": {
+		"type": "boolean"
+	},
+	"output": {
+		"type": "boolean"
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"name": "long running",
+	"program": "./long.py",
+	"description": "",
+	"configuration": {
+		"any": "required key value pairs"
+	},
+	"parameters": "",
+	"input": {
+		"type": "boolean"
+	},
+	"output": {
+		"type": ""
+	}
+}
