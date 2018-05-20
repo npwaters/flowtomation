@@ -16,7 +16,7 @@ import utilities
 #     return services
 
 
-def get_configuration_part_1(
+def get_command_line(
         service,
         services,
         service_output
@@ -26,20 +26,9 @@ def get_configuration_part_1(
     # check for special symbol '$$' in parameters
     if "$$" in parameters:
         parameters = parameters.replace("$$", service_output)
-    # part 2 only
-    # check if the service uses a custom python script
-    path = ''
-    if "./" in program:
-        program = program[2:]
-        path = "%s/%s/" % (
-            "services",
-            # escape any spaces so shlex doesnt split the directory name
-            " ".join(["%s\\" % line for line in service.split()])
-        )
 
     command_line = shlex.split(
-                    '%s%s %s' % (
-                        path,
+                    '%s %s' % (
                         program,
                         parameters
                     ),
@@ -68,7 +57,7 @@ def process_flow(f, flows, services, logger):
         logger.info("running service {0} ...".format(service))
         try:
             result = subprocess.run(
-                get_configuration_part_1(
+                get_command_line(
                     service,
                     services,
                     service_output
@@ -112,7 +101,7 @@ def main():
     try:
         program_configuration_file = sys.argv[1]
     except IndexError:
-        logger.info("configuration file no supplied as argument - using default")
+        logger.info("configuration file not supplied as argument - using default")
         program_configuration_file = "ifttt.json"
 
     # get the program configuration

@@ -93,20 +93,13 @@ def verify_service_data_format(
     return result
 
 
-# def get_configuration_part_2(
-#         service,
-#         service
-# ):
-#     pass
-#
-def get_services_part_2(
+def get_services(
         services,
         file_information,
         logger
 ):
     # search recursively for config.json files in 'services' directory
     result = ''
-    # services = {}
     get_failed = False
     for root, dirs, files in os.walk("services"):
         for file in files:
@@ -120,7 +113,6 @@ def get_services_part_2(
                     logger
                 ):
                     # load the service
-                    # TODO: handle the result (return value 'True' or 'False')
                     service_name = os.path.basename(root)
                     log_line_prefix = "service: {0} -".format(service_name)
                     # verify if valid JSON via 'load_service'
@@ -160,7 +152,7 @@ def get_services_part_2(
 #     return services
 
 
-def get_configuration_part_1(
+def get_command_line(
         service,
         services,
         service_output
@@ -170,7 +162,6 @@ def get_configuration_part_1(
     # check for special symbol '$$' in parameters
     if "$$" in parameters:
         parameters = parameters.replace("$$", service_output)
-    # part 2 only
     # check if the service uses a custom python script
     path = ''
     if "./" in program:
@@ -196,7 +187,6 @@ def process_flow(f, flows, services, logger):
     # store our service output to use as input for the next service
     service_output = ''
 
-    # part 2
     # check if all services listed in the flow loaded successfully
     if not utilities.flow_ready_to_run(
             services,
@@ -207,10 +197,7 @@ def process_flow(f, flows, services, logger):
         return False
 
     for service in flows.get(f):
-        # TODO: check for service_output here instead of 'verify_service_data_format'
-        # part 2 only
         # verify service input i.e. 'service_output'
-        # TODO: handle exception raised by 'verify_service_data_format'
         if service_output and not verify_service_data_format(
             service,
             services,
@@ -221,13 +208,12 @@ def process_flow(f, flows, services, logger):
             return False
 
         # handle a possible exception if the service exits with a non-zero exit code
-        # TODO: test other possible exceptions:
         # -service file/command not found
         # -permission issue on service file
         logger.info("running service {0} ...".format(service))
         try:
             result = subprocess.run(
-                get_configuration_part_1(
+                get_command_line(
                     service,
                     services,
                     service_output
@@ -279,33 +265,12 @@ def main():
     try:
         flow_configuration_file = sys.argv[1]
     except IndexError:
-        logger.info("configuration file no supplied as argument - using default")
+        logger.info("configuration file not supplied as argument - using default")
         flow_configuration_file = "ifttt.json"
 
     # get the program configuration
-    # TODO: handle invalid json etc per specs
-    # part 1
-    # program_configuration_file = "test.json"
-    # try:
-    #     configuration = json.load(
-    #         open(program_configuration_file),
-    #         object_pairs_hook=OrderedDict
-    #     )
-    #     logger.info("configuration loaded!")
-    # except json.JSONDecodeError as e:
-    #     error_message = "Failed to load configuration - Invalid JSON detected on/near line: {0}".format(e.lineno - 1)
-    #     logger.critical(error_message)
-    #     sys.exit(error_message)
-    # # get the flow configuration
-    # flows = configuration.get("flows")
-    # logger.info("got the flows!")
-
     # get the services
     services = {}
-    # part 1
-    # services = configuration.get("services")
-
-    # part 2
     file_information = {}
 
     # process the flows
@@ -315,7 +280,6 @@ def main():
         logger.info("waiting for next flow start time ...")
         if utilities.flow_start_time():
             logger.info("it's go time!")
-            # part 2
             # update/check the flow configuration file modified time
             modified = utilities.check_file_modified(
                 flow_configuration_file,
@@ -353,7 +317,7 @@ def main():
                 logger.info("got the flows!")
             # update/check the service configuration files modified time
             # and load any new/updated service configurations
-            if get_services_part_2(
+            if get_services(
                 services,
                 file_information,
                 logger
@@ -378,7 +342,6 @@ def main():
                     logger.warning("{0} failed!".format(log_line_prefix))
                 time_taken = datetime.datetime.now() - start_time
                 continue
-        # time.sleep(1)
 
     sys.exit()
 
