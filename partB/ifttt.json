@@ -1,0 +1,36 @@
+{
+  "services": {
+    "time of day": {
+      "program": "date",
+      "parameters": "'+%d/%m/%Y %H:%M:%S'"
+    },
+    "append to file": {
+      "program": "./append.py",
+      "parameters": "times.txt"
+    },
+	  "is morning": {
+		  "program": "./morning.py",
+		  "parameters": ""
+	  },
+	  "is afternoon": {
+		  "program": "./afternoon.py",
+		  "parameters": ""
+	  },
+	  "echo": {
+		  "program": "echo",
+		  "parameters": "current time: $$"
+	  }
+	  
+  },
+  "flows": {
+	  "check time of day": [
+		  "time of day",
+		  "is morning"
+		  ],
+	  "Append time of day": [
+		  "time of day",
+		  "echo",
+		  "append to file"
+		  ]
+	  }
+}

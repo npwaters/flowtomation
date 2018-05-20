@@ -1,5 +1,10 @@
 
+
+Note:
+the test below are primarily related to part 2
+
 the numbers below correspond to ocnfiguration files in the 'test_files' directory
+
 
 
 1. an empty json program configuration file (no text at all)
@@ -40,3 +45,8 @@ the numbers below correspond to ocnfiguration files in the 'test_files' director
 	Expected result:
 		Log error
 		Exit flow
+12. Input/Ouput data type verification failure
+	Expected result:
+		Log error
+		Exit flow
+		

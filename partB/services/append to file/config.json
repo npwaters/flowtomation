@@ -7,7 +7,8 @@
 	},
 	"parameters": "times.txt",
 	"input": {
-		"type": "datetime"
+		"type": "time",
+		"format": "%d/%m/%Y %H:%M:%S"
 	},
 	"output": {
 		"type": "boolean"
