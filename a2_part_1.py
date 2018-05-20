@@ -55,7 +55,7 @@ def verify_service_data_format(
     # verify a data type is configured and it is supported
     if not required_data_type:
         # TODO: provide feedback?
-        logger.info("service: {0} - does not have an {1} data type configured"
+        logger.warning("service: {0} - does not have an {1} data type configured"
                     .format(service, direction))
     elif required_data_type not in supported_data_types:
         logger.error("service: {0} - unsupported data type!"
@@ -68,6 +68,7 @@ def verify_service_data_format(
         data = json.loads(service_data.decode("utf-8")).get("data")
     except json.JSONDecodeError as e:
         # TODO: create function to extract required output from 'JSONDecodeError' exception
+        logger.error("service: {0} - invalid JSON message provided!")
         return False
 
     # we now have the service input/output data
@@ -254,6 +255,14 @@ def main():
     # setup logging
     logger = utilities.setup_logger("CPT223 A2")
 
+    flow_configuration_file = ''
+    # get the configuration file from the command line if one supplied
+    command_line_argument = sys.argv[1]
+    if command_line_argument:
+        flow_configuration_file = command_line_argument
+    else:
+        flow_configuration_file = "ifttt.json"
+
     # get the program configuration
     # TODO: handle invalid json etc per specs
     # part 1
@@ -279,7 +288,6 @@ def main():
 
     # part 2
     file_information = {}
-    flow_configuration_file = "ifttt.json"
 
     # process the flows
     while True:
