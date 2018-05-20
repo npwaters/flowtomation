@@ -13,7 +13,7 @@ output = {
 }
 
 output_bytes = json.dumps(output).encode("utf-8")
-sys.stdout.write(
+sys.stdout.buffer.write(
     output_bytes
 )
 sys.exit(status)

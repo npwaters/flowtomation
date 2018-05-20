@@ -122,7 +122,7 @@ def load_service(
         )
         services[service.get("name")] = service
     except json.JSONDecodeError as e:
-        error_message = "Failed to load configuration - Invalid JSON detected on line: {0}".format(e.lineno - 1)
+        error_message = "Failed to load configuration - Invalid JSON detected on/near line: {0}".format(e.lineno - 1)
         logger.warning(error_message)
         # remove the service if it is already installed
         if service_name in services:

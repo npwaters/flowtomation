@@ -1,13 +1,12 @@
 {
   "flows": {
 	  "test fail service": [
-		  "long running",
-		  "time of day",
+		  "fail",
 		  "is morning"
 		  ],
-	  "check is morning": [
+	  "check time of day": [
 		  "time of day",
 		  "is morning"
-	  ]
-  }
+		  ]
+	  }
 }

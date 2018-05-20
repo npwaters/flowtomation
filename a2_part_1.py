@@ -169,7 +169,7 @@ def get_configuration_part_1(
     parameters = services.get(service)["parameters"]
     # check for special symbol '$$' in parameters
     if "$$" in parameters:
-        parameters = parameters.replace("$$", service_output.decode("utf-8"))
+        parameters = parameters.replace("$$", service_output)
     # part 2 only
     # check if the service uses a custom python script
     path = ''
@@ -224,6 +224,7 @@ def process_flow(f, flows, services, logger):
         # TODO: test other possible exceptions:
         # -service file/command not found
         # -permission issue on service file
+        logger.info("running service {0} ...".format(service))
         try:
             result = subprocess.run(
                 get_configuration_part_1(
@@ -237,7 +238,7 @@ def process_flow(f, flows, services, logger):
                 check=True
             )
             service_output = result.stdout
-            if not verify_service_data_format(
+            if service_output and not verify_service_data_format(
                 service,
                 services,
                 service_output,
@@ -245,11 +246,24 @@ def process_flow(f, flows, services, logger):
                 logger
             ):
                 return False
-        except subprocess.CalledProcessError as e:
+        except (
+                subprocess.CalledProcessError,
+                FileNotFoundError,
+                PermissionError
+        ) as e:
             result = e
             pass
         # return error code if stderr
-        status = result.returncode
+        if type(result) == FileNotFoundError:
+            status = result.errno
+            logger.error(result.strerror)
+        if type(result) == subprocess.CalledProcessError:
+            status = result.returncode
+            logger.error(result.stderr)
+        if type(result) == PermissionError:
+            status = result.errno
+            logger.error(result.strerror)
+
 
         # exit flow on non-zero return code
         if status != 0:
@@ -281,7 +295,7 @@ def main():
     #     )
     #     logger.info("configuration loaded!")
     # except json.JSONDecodeError as e:
-    #     error_message = "Failed to load configuration - Invalid JSON detected on line: {0}".format(e.lineno - 1)
+    #     error_message = "Failed to load configuration - Invalid JSON detected on/near line: {0}".format(e.lineno - 1)
     #     logger.critical(error_message)
     #     sys.exit(error_message)
     # # get the flow configuration
@@ -319,7 +333,8 @@ def main():
                     )
                     logger.info("configuration loaded!")
                 except json.JSONDecodeError as e:
-                    error_message = "Failed to load configuration - Invalid JSON detected on line: {0}"\
+                    error_message = "Failed to load program configuration " \
+                                    "- Invalid JSON detected on/near line: {0}"\
                         .format(e.lineno - 1)
                     logger.critical(error_message)
                     sys.exit(error_message)
@@ -327,10 +342,11 @@ def main():
                 # verify the mandatory configuration fields
                 if not utilities.verify_configuration(
                     configuration,
-                    utilities.required_keys.get("program_configuration_1"),
+                    utilities.required_keys.get("program_configuration_2"),
                     logger
                 ):
-                    error_message = "Program configuration file missing mandatory section"
+                    error_message = "Failed to load program configuration " \
+                                    "- configuration file missing mandatory section"
                     logger.critical(error_message)
                     sys.exit(error_message)
 
@@ -361,7 +377,7 @@ def main():
                     logger.info("{0} successful!".format(log_line_prefix))
                 else:
                     flow_status = "failed!"
-                    logger.info("{0} failed!".format(log_line_prefix))
+                    logger.warning("{0} failed!".format(log_line_prefix))
                 time_taken = datetime.datetime.now() - start_time
                 continue
         # time.sleep(1)

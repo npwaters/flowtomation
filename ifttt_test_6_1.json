@@ -1,0 +1,16 @@
+{
+  "flows": {
+	  "check is morning": [
+		  "time of day",
+		  "is morning"
+		  ],
+	  "check is afternoon": [
+		  "time of day",
+		  "is afternoon"
+	  ],
+	  "check is evening": [
+		  "time of day",
+		  "is evening"
+	  ]
+  }
+}

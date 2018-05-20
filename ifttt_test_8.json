@@ -6,7 +6,6 @@
 		  ],
 	  "Append time of day": [
 		  "time of day",
-		  "echo",
 		  "append to file"
 		  ]
 	  }

@@ -1,7 +1,8 @@
 {
   "flows": {
 	  "test JSON output missing 'data' field": [
-		  "test 10"
+		  "test 10",
+		  "time of day"
 		  ]
 	  }
 }
