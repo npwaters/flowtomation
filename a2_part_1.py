@@ -318,11 +318,15 @@ def main():
                     sys.exit(error_message)
 
                 # verify the mandatory configuration fields
-                utilities.verify_configuration(
+                if not utilities.verify_configuration(
                     configuration,
                     utilities.required_keys.get("program_configuration_1"),
                     logger
-                )
+                ):
+                    error_message = "Program configuration file missing mandatory section"
+                    logger.critical(error_message)
+                    sys.exit(error_message)
+                    
                 # get the flow configuration
                 flows = configuration.get("flows")
                 logger.info("got the flows!")
