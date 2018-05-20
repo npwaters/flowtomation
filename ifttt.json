@@ -9,7 +9,7 @@
       "parameters": "times.txt"
     },
 	  "is morning": {
-		  "program": "is morning/morning.py",
+		  "program": "./morning.py",
 		  "parameters": ""
 	  },
 	  "is afternoon": {

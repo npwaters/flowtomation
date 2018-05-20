@@ -1,6 +1,6 @@
 {
-	"name": "long running",
-	"program": "./long.py",
+	"name": "quit if false",
+	"program": "./quit_if_false.py",
 	"description": "",
 	"configuration": {
 		"any": "required key value pairs"
