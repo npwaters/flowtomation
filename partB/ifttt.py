@@ -348,7 +348,6 @@ def main():
                 # so we dont run more than once if the flow run time
                 # is < one second
                 if time_taken.seconds < 1:
-                    logger.info("waiting ...")
                     time.sleep(1)
                 continue
 

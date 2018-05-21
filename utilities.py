@@ -149,12 +149,10 @@ def flow_ready_to_run(
 
 def flow_start_time():
 
-    return True  # TODO: remove
     time_to_start = False
     while not time_to_start:
         second = datetime.datetime.now().second
         if second != 0:
-            print(second)  # TODO: remove
             time.sleep(1)
         else:
             time_to_start = True
