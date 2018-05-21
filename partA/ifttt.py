@@ -154,6 +154,11 @@ def main():
                     flow_status = "failed!"
                     logger.warning("{0} failed!".format(log_line_prefix))
                 time_taken = datetime.datetime.now() - start_time
+                # we need to wait until at least one second has elapsed
+                # so we dont run more than once if the flow run time
+                # is < one second
+                if time_taken.seconds < 1:
+                    time.sleep(1)
                 continue
         # time.sleep(1)
 

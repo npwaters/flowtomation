@@ -1,0 +1,2 @@
+Modify the stack class in the lecture notes to make a queue class. Name it “queue”.
+Create a class named “Quack”, which implements a hybrid queue/stack. It has three methods: push() 
