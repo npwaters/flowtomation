@@ -1,8 +1,12 @@
 #!/usr/bin/python3
 
-import custom_classes_part_2
 import sys
 import datetime
+
+sys.path.append('/tmp/pycharm_project_926')
+
+python_path = sys.path
+from partB import custom_classes_part_2
 
 
 # date_time_format = sys.stdin.read()

@@ -6,7 +6,9 @@ Exits with non zero return code and error message (stderr) if invalid time.
 """
 
 import sys
-import custom_classes_part_2
+sys.path.append('/tmp/pycharm_project_926')
+
+from partB import custom_classes_part_2
 
 input_time = sys.stdin.read()
 
