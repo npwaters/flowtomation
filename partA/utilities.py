@@ -1,4 +1,5 @@
 import logging
+import logging.handlers
 import sys
 import os
 import json
@@ -32,8 +33,10 @@ def setup_logger(
     logger = logging.getLogger(name)
     logger.setLevel(level)
     log_file_name = "a2.log"
-    fh = logging.FileHandler(
-        filename=log_file_name
+    fh = logging.handlers.RotatingFileHandler(
+        filename=log_file_name,
+        maxBytes=100000,
+        backupCount=3
     )
     fh.setLevel(level)
     formatter = logging.Formatter(

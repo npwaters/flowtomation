@@ -1,6 +1,6 @@
 {
   "flows": {
-	  "test fail service": [
+	  "test long running": [
 		  "long running",
 		  "time of day",
 		  "is morning"

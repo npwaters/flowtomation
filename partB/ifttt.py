@@ -255,12 +255,12 @@ def process_flow(f, flows, services, logger):
             if type(result) == FileNotFoundError:
                 status = result.errno
                 logger.error(result.strerror)
-            if type(result) == subprocess.CalledProcessError:
-                status = result.returncode
-                logger.error(result.stderr)
             if type(result) == PermissionError:
                 status = result.errno
                 logger.error(result.strerror)
+            if type(result) == subprocess.CalledProcessError:
+                status = result.returncode
+                logger.error(result.stderr)
 
         # exit flow on non-zero return code
         if status != 0:

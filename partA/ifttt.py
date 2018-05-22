@@ -1,6 +1,14 @@
 #!/usr/bin/python3
 
 import sys
+import os
+
+content_root = "/".join(os.path.dirname(os.path.realpath(__file__))
+                        .split("/")[:-1])
+sys.path.insert(
+    0,
+    content_root
+)
 import json
 import subprocess
 import shlex
@@ -9,7 +17,7 @@ import time
 import datetime
 import os
 import enum
-import utilities
+from partA import utilities
 
 # def get_services_part_1():
 #
@@ -77,12 +85,12 @@ def process_flow(f, flows, services, logger):
             if type(result) == FileNotFoundError:
                 status = result.errno
                 logger.error(result.strerror)
-            if type(result) == subprocess.CalledProcessError:
-                status = result.returncode
-                logger.error(result.stderr)
             if type(result) == PermissionError:
                 status = result.errno
                 logger.error(result.strerror)
+            if type(result) == subprocess.CalledProcessError:
+                status = result.returncode
+                logger.error(result.stderr)
 
         # exit flow on non-zero return code
         if status != 0:
