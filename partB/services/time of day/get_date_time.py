@@ -2,9 +2,15 @@
 
 import sys
 import datetime
+import os
 
-sys.path.append('/tmp/pycharm_project_926')
 
+content_root = "/".join(os.path.dirname(os.path.realpath(__file__))
+                        .split("/")[:-3])
+sys.path.insert(
+    0,
+    content_root
+)
 python_path = sys.path
 from partB import custom_classes_part_2
 

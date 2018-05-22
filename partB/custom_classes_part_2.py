@@ -1,5 +1,15 @@
-import validate_time
 import sys
+import os
+
+
+content_root = "/".join(os.path.dirname(os.path.realpath(__file__))
+                        .split("/")[:-1])
+sys.path.insert(
+    0,
+    content_root
+)
+python_path = sys.path
+from partB import validate_time
 import json
 
 

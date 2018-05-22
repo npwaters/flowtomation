@@ -1,20 +1,28 @@
 #!/usr/bin/python3
 
 import sys
+import os
+
+content_root = "/".join(os.path.dirname(os.path.realpath(__file__))
+                        .split("/")[:-1])
+sys.path.insert(
+    0,
+    content_root
+)
+
 import json
 import subprocess
 import shlex
 from collections import OrderedDict
 import time
 import datetime
-import os
 import enum
-import utilities
+from partB import utilities
 
 # ------------------------------------------------------------------------------
 # part 2
 import numbers
-import validate_time
+from partB import validate_time
 
 
 supported_data_types = {
