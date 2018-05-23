@@ -6,7 +6,14 @@ Exits with non zero return code and error message (stderr) if invalid time.
 """
 
 import sys
-sys.path.append('/tmp/pycharm_project_926')
+import os
+
+content_root = "/".join(os.path.dirname(os.path.realpath(__file__))
+                        .split("/")[:-3])
+sys.path.insert(
+    0,
+    content_root
+)
 
 from partB import custom_classes_part_2
 
