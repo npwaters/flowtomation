@@ -29,18 +29,21 @@ def get_command_line(
         services,
         service_output
 ):
-    program = services.get(service)["program"]
-    parameters = services.get(service)["parameters"]
+    program = services.get(service).get("program")
+    parameters = services.get(service).get("parameters")
     # check for special symbol '$$' in parameters
-    if "$$" in parameters:
+    if parameters and "$$" in parameters:
         parameters = parameters.replace("$$", service_output.decode("utf-8"))
 
-    command_line = shlex.split(
-                    '%s %s' % (
-                        program,
-                        parameters
-                    ),
-                )
+    if parameters:
+        command_line = shlex.split(
+                        '%s %s' % (
+                            program,
+                            parameters
+                        ),
+                    )
+    else:
+        command_line = [program]
     return command_line
 
 

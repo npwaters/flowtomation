@@ -167,10 +167,10 @@ def get_command_line(
         services,
         service_output
 ):
-    program = services.get(service)["program"]
-    parameters = services.get(service)["parameters"]
+    program = services.get(service).get("program")
+    parameters = services.get(service).get("parameters")
     # check for special symbol '$$' in parameters
-    if "$$" in parameters:
+    if parameters and "$$" in parameters:
         parameters = parameters.replace("$$", service_output)
     # check if the service uses a custom python script
     path = ''
@@ -182,13 +182,21 @@ def get_command_line(
             " ".join(["%s\\" % line for line in service.split()])
         )
 
-    command_line = shlex.split(
+    if parameters:
+        command_line = shlex.split(
                     '%s%s %s' % (
                         path,
                         program,
                         parameters
                     ),
                 )
+    else:
+        command_line = shlex.split(
+            '%s%s' % (
+                path,
+                program,
+            ),
+        )
     return command_line
 
 

@@ -6,7 +6,7 @@ import os
 def main(directory):
   files = os.listdir(directory)	
   for file in files:
-    print(directory + file)
+    print("{0}/{1}".format(directory, file))
 		
 
 try:

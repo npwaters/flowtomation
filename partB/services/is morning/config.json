@@ -5,7 +5,6 @@
 	"configuration": {
 		"any": "required key value pairs"
 	},
-	"parameters": "",
 	"input": {
 		"type": "time",
 		"format": "%d/%m/%Y %H:%M:%S"

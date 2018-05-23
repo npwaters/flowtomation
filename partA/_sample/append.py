@@ -8,8 +8,9 @@ def main(save_name):
 	lines = [line for line in lines if len(line) > 0]
 
 	output = open(save_name, 'a')
+	# output.writelines(lines)
 	for line in lines:
-		output.write(line)
+		output.write("{0}\n".format(line))
 		
 	output.close()
 	

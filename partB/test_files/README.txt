@@ -14,7 +14,10 @@ the numbers below correspond to ocnfiguration files in the 'test_files' director
 3. an invalid configuration (correct json, but bad key/values for this problem)
 	Expected result: abort
 4. a flow with only a single service
-	Expected result: continually re-run service?
+	Expected result:
+		run the service
+		exit the flow
+		re-run the flow on next program run
 5. a flow calling on a service that always returns an exit status of 1 (call the service "fail.py" if you like)
 	Expected result: 
 		flow will exit.
