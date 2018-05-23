@@ -52,4 +52,15 @@ the numbers below correspond to ocnfiguration files in the 'test_files' director
 	Expected result:
 		Log error
 		Exit flow
+13. Optional field verification failure - missing 'type' key
+	Expected result:
+		Log error
+		Remove service from running configuration
+		Flow with service configured will be skipped
+		
+14. Optional field verification failure - unsupported input/ouput type
+	Expected result:
+		Log error
+		Remove service from running configuration
+		Flow with service configured will be skipped
 		

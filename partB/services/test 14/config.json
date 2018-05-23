@@ -1,7 +1,7 @@
 {
-	"name": "is morning",
+	"name": "test",
 	"program": "./morning.py",
-	"description": "check if the given time is in the morning",
+	"description": "",
 	"configuration": {
 		"any": "required key value pairs"
 	},
@@ -9,6 +9,6 @@
 		"type": "time"
 	},
 	"output": {
-		"type": "boolean"
+		"type": ""
 	}
 }

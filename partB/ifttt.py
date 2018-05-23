@@ -123,9 +123,15 @@ def get_services(
                     else:
                         logger.error("{0} failed to load!".format(log_line_prefix))
                         return False
-                    # verify mandatory fields (configuration)
+                    # verify configuration
+                    configuration = services.get(service_name)
+                    if not configuration:
+                        logger.error("directory name and service name for service {0} do not match"
+                                     .format(service_name))
+                        return False
+
                     if utilities.verify_configuration(
-                            services.get(service_name),
+                            configuration,
                             utilities.required_keys.get("service_configuration"),
                             logger
                     ):
