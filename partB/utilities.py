@@ -139,27 +139,25 @@ def verify_configuration(
 
 def load_service(
         services,
-        service_name,
+        # service_name,
         config_file,
         logger
 ):
     try:
-        service = json.load(
+        return json.load(
             open(
                 config_file
             ),
             object_pairs_hook=OrderedDict
         )
-        services[service.get("name")] = service
+        # services[service.get("name")] = service
     except json.JSONDecodeError as e:
         error_message = "Failed to load configuration - Invalid JSON detected on/near line: {0}".format(e.lineno - 1)
         logger.warning(error_message)
         # remove the service if it is already installed
-        if service_name in services:
-            del services[service_name]
+        # if service_name in services:
+        #     del services[service_name]
         return False
-    else:
-        return True
 
 
 def flow_ready_to_run(

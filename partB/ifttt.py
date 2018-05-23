@@ -109,25 +109,26 @@ def get_services(
                     logger
                 ):
                     # load the service
-                    service_name = os.path.basename(root)
-                    log_line_prefix = "service: {0} -".format(service_name)
+                    service_directory_name = os.path.basename(root)
+                    log_line_prefix = "service in directory: {0} -".format(service_directory_name)
                     # verify if valid JSON via 'load_service'
-                    if utilities.load_service(
+                    service = utilities.load_service(
                         services,
-                        service_name,
+                        # service_directory_name,
                         config_file_path,
                         logger
-                    ):
-                        logger.info("{0} loaded successfully!".format(log_line_prefix))
+                    )
+                    if service:
+                        logger.info("{0} passed JSON validation!".format(log_line_prefix))
 
                     else:
-                        logger.error("{0} failed to load!".format(log_line_prefix))
+                        logger.error("{0} failed JSON validation!".format(log_line_prefix))
                         return False
                     # verify configuration
-                    configuration = services.get(service_name)
+                    configuration = services.get(service_directory_name)
                     if not configuration:
                         logger.error("directory name and service name for service {0} do not match"
-                                     .format(service_name))
+                                     .format(service_directory_name))
                         return False
 
                     if utilities.verify_configuration(
@@ -139,7 +140,7 @@ def get_services(
                     else:
                         logger.error("{0} failed mandatory field verification".format(log_line_prefix))
                         # remove the service from running configuration
-                        del services[service_name]
+                        del services[service_directory_name]
                         get_failed = True
         continue
     if get_failed:
