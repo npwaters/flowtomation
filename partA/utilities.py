@@ -24,7 +24,7 @@ required_keys = {
     }
 
 
-# TODO: configure file rotation
+
 def setup_logger(
         name,
         log_level="INFO"
@@ -89,10 +89,7 @@ def verify_configuration(
         logger
 ):
     verification_passed = True
-    # store the results in a dictionary?
-    results = {}
     for key in required_keys:
-        results[key] = key in configuration
         if key not in configuration:
             logger.error("missing mandatory field in configuration")
             verification_passed = False

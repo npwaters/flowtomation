@@ -4,12 +4,5 @@
 	"description": "new version of append to file",
 	"configuration": {
 		"any": "required key value pairs"
-	},
-	"parameters": "times.txt",
-	"input": {
-		"type": "datetime"
-	},
-	"output": {
-		"type": "boolean"
 	}
 }

@@ -6,6 +6,7 @@ import json
 from collections import OrderedDict
 import time
 import datetime
+import numbers
 
 
 required_keys = {
@@ -23,8 +24,15 @@ required_keys = {
         ]
     }
 
+supported_data_types = {
+    "number": numbers.Number,
+    "string": str,
+    "dictionary": dict,
+    "array": list,
+    "boolean": bool,
+    "time": datetime.datetime
+}
 
-# TODO: configure file rotation
 def setup_logger(
         name,
         log_level="INFO"
@@ -96,6 +104,37 @@ def verify_configuration(
         if key not in configuration:
             logger.error("missing mandatory field in configuration")
             verification_passed = False
+
+    # check the configuration of the optional fields
+    # - parameters: string
+    # - input, output: have a type field, and one of the set values
+    field = "parameter"
+    if field in configuration:
+        if not isinstance(
+                configuration.get(field),
+                str
+        ):
+            verification_passed = False
+            logger.error("field: {0} - incorrect type".format(field))
+    fields = [
+        "input",
+        "output"
+    ]
+    for field in fields:
+        if field in configuration:
+            # check if it has the 'type' key
+            key = configuration.get(field)
+            type_field = "type"
+            if type_field in key:
+                if not key.get(type_field) in supported_data_types:
+                    verification_passed = False
+                    logger.error("configured type is not supported for field {0}"
+                                 .format(field))
+            else:
+                verification_passed = False
+                logger.error("field: {0} - missing mandatory field"
+                             .format(field))
+
     if verification_passed:
         return True
     return False

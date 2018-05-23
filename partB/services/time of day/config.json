@@ -6,9 +6,6 @@
 		"any": "required key value pairs"
 	},
 	"parameters": "'%d/%m/%Y %H:%M:%S'",
-	"input": {
-		"type": ""
-	},
 	"output": {
 		"type": "time",
 		"format": "%d/%m/%Y %H:%M:%S"

@@ -4,13 +4,5 @@
 	"description": "append to file",
 	"configuration": {
 		"any": "required key value pairs"
-	},
-	"parameters": "times.txt",
-	"input": {
-		"type": "time",
-		"format": "%d/%m/%Y %H:%M:%S"
-	},
-	"output": {
-		"type": "boolean"
 	}
 }

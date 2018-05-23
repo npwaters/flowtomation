@@ -6,9 +6,6 @@
 		"any": "required key value pairs"
 	},
 	"parameters": "",
-	"input": {
-		"type": ""
-	},
 	"output": {
 		"type": "boolean"
 	}

@@ -18,21 +18,7 @@ import time
 import datetime
 import enum
 from partB import utilities
-
-# ------------------------------------------------------------------------------
-# part 2
-import numbers
 from partB import validate_time
-
-
-supported_data_types = {
-    "number": numbers.Number,
-    "string": str,
-    "dictionary": dict,
-    "array": list,
-    "boolean": bool,
-    "time": datetime.datetime
-}
 
 
 class Direction(enum.Enum):
@@ -65,7 +51,7 @@ def verify_service_data_format(
         logger.warning("service: {0} - does not have an {1} data type configured"
                     .format(service, direction))
         return False
-    elif required_data_type not in supported_data_types:
+    elif required_data_type not in utilities.supported_data_types:
         logger.error("service: {0} - unsupported data type!"
                      .format(service, direction))
         return False
@@ -90,7 +76,7 @@ def verify_service_data_format(
     if required_data_type != "time":
         result = isinstance(
             data,
-            supported_data_types.get(required_data_type)
+            utilities.supported_data_types.get(required_data_type)
         )
         if not result:
             logger.error("{0} data type does not match required data type"

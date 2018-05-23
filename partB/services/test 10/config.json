@@ -7,9 +7,6 @@
 	},
 	"parameters": "",
 	"input": {
-		"type": ""
-	},
-	"output": {
 		"type": "string"
 	}
 }
