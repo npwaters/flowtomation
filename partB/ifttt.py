@@ -113,7 +113,7 @@ def get_services(
                     log_line_prefix = "service in directory: {0} -".format(service_directory_name)
                     # verify if valid JSON via 'load_service'
                     service = utilities.load_service(
-                        services,
+                        # services,
                         # service_directory_name,
                         config_file_path,
                         logger
@@ -125,22 +125,35 @@ def get_services(
                         logger.error("{0} failed JSON validation!".format(log_line_prefix))
                         return False
                     # verify configuration
-                    configuration = services.get(service_directory_name)
-                    if not configuration:
-                        logger.error("directory name and service name for service {0} do not match"
-                                     .format(service_directory_name))
-                        return False
+                    # configuration = services.get(service_directory_name)
+                    # if not configuration:
+                    #     logger.error("directory name and service name for service {0} do not match"
+                    #                  .format(service_directory_name))
+                    #     return False
 
                     if utilities.verify_configuration(
-                            configuration,
+                            service,
                             utilities.required_keys.get("service_configuration"),
                             logger
                     ):
-                        logger.info("{0} passed mandatory field verification!".format(log_line_prefix))
+                        logger.info("{0} passed configuration verification!".format(log_line_prefix))
+                        # load the service into running configuration
+                        # TODO: issue loading service with same name?
+                        service_name = service.get("name")
+                        if service_name not in services:
+                            services[service_name] = service
+                        else:
+                            logger.error("service with the same exists in the running configuration")
+                            get_failed = True
+
                     else:
-                        logger.error("{0} failed mandatory field verification".format(log_line_prefix))
+                        logger.error("{0} failed configuration verification".format(log_line_prefix))
                         # remove the service from running configuration
-                        del services[service_directory_name]
+                        # remove the service if it is already installed
+
+                        if service.get("name") in services:
+                            del services[service.get("name")]
+                        # del services[service_directory_name]
                         get_failed = True
         continue
     if get_failed:

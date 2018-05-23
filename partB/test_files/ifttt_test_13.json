@@ -2,6 +2,7 @@
   "flows": {
 	  "test missing optional field 'type' key": [
 		  "test 13",
+		  "test 14",
 		  "is morning"
 		  ]
 	  }

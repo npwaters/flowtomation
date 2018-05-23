@@ -138,7 +138,7 @@ def verify_configuration(
 
 
 def load_service(
-        services,
+        # services,
         # service_name,
         config_file,
         logger

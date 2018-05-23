@@ -1,0 +1,8 @@
+{
+	"name": "is morning",
+	"program": "./morning.py",
+	"description": "",
+	"configuration": {
+		"any": "required key value pairs"
+	}
+}
