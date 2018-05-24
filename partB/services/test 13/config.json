@@ -1,7 +1,7 @@
 {
 	"name": "test 13",
 	"program": "./morning.py",
-	"description": "",
+	"description": "Optional field verification failure - missing 'type' key",
 	"configuration": {
 		"any": "required key value pairs"
 	},

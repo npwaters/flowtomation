@@ -1,7 +1,7 @@
 {
-	"name": "test",
+	"name": "test 14",
 	"program": "./morning.py",
-	"description": "",
+	"description": "test unsupported input/output type in configuration",
 	"configuration": {
 		"any": "required key value pairs"
 	},

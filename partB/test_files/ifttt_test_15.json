@@ -1,0 +1,8 @@
+{
+  "flows": {
+	  "test parameter field type not 'string'": [
+		  "test 15",
+		  "is morning"
+		  ]
+	  }
+}

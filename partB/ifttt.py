@@ -41,6 +41,10 @@ def verify_service_data_format(
     # get the data type
     data_type_configuration = services.get(service)\
         .get(direction)
+    if not data_type_configuration:
+        logger.error("service has data with no {0} configuration"
+                     .format(direction))
+        return False
     required_data_type = data_type_configuration.get("type")
     required_data_format = None
     # get the required format, if one exists
@@ -268,13 +272,13 @@ def process_flow(f, flows, services, logger):
             result = e
             if type(result) == FileNotFoundError:
                 status = result.errno
-                logger.error(result.strerror)
+                logger.error(result.strerror.decode("utf-8"))
             if type(result) == PermissionError:
                 status = result.errno
-                logger.error(result.strerror)
+                logger.error(result.strerror.decode("utf-8"))
             if type(result) == subprocess.CalledProcessError:
                 status = result.returncode
-                logger.error(result.stderr)
+                logger.error(result.stderr.decode("utf-8"))
 
         # exit flow on non-zero return code
         if status != 0:

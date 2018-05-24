@@ -1,9 +1,8 @@
 {
-	"name": "test 15",
+	"": "test 17",
 	"program": "./morning.py",
 	"description": "",
 	"configuration": {
 		"any": "required key value pairs"
-	},
-	"parameters": "True"
+	}
 }
