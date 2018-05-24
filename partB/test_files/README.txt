@@ -55,7 +55,6 @@ one minute (have a service that does a time.sleep(60))
 	i.e.
 		Permission issue
 		File not found
-		Stderr produced by service
 	Expected result:
 		Log error
 		Exit flow
@@ -66,7 +65,7 @@ one minute (have a service that does a time.sleep(60))
 13. Optional field verification failure - missing 'type' key
 	Expected result:
 		Log error
-		Remove service from running configuration
+		do not load service
 		Flow with service configured will be skipped
 		
 14. Optional field verification failure - unsupported input/ouput type
@@ -89,8 +88,13 @@ one minute (have a service that does a time.sleep(60))
 		Flow with service configured will be skipped	
 
 17. Mandatory field verification failure - missing 'name' field
-
+	Expected result:
+		Log error
+		do not load service
+		Flow with service configured will be skipped
 18. Service received/sent data without input/output configuration
 	note: use test file 8 for this test
-	
+		Expected result:
+			Log error
+			exit flow
 

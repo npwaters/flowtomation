@@ -105,7 +105,7 @@ def verify_configuration(
     # check the configuration of the optional fields
     # - parameters: string
     # - input, output: have a type field, and one of the set values
-    field = "parameter"
+    field = "parameters"
     if field in configuration:
         if not isinstance(
                 configuration.get(field),

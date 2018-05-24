@@ -1,13 +1,8 @@
 {
-	"name": "append to file",
+	"name": "test 18",
 	"program": "./append.py",
 	"description": "append to file",
 	"configuration": {
 		"any": "required key value pairs"
-	},
-	"parameters": "times.txt",
-	"input": {
-		"type": "string"
 	}
-	
 }

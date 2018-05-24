@@ -107,6 +107,12 @@ def get_services(
                 # check if file information exists or the config has ben modified
                 # service name is the parent directory name
                 config_file_path = os.path.join(root, file)
+                # if the file doesnt have any file information
+                # it should be classed as 'new'
+                # therefore we need to check if it is a duplicate name of an existing service
+                new_file = True
+                if file_information.get(config_file_path):
+                    new_file = False
                 if utilities.check_file_modified(
                     config_file_path,
                     file_information,
@@ -144,7 +150,11 @@ def get_services(
                         # load the service into running configuration
                         # TODO: issue loading service with same name?
                         service_name = service.get("name")
-                        if service_name not in services:
+                        if new_file and service_name not in services:
+                            services[service_name] = service
+                        elif not new_file and service_name in services:
+                            # update (replace) the service
+                            del services[service_name]
                             services[service_name] = service
                         else:
                             logger.error("service with the same exists in the running configuration")
@@ -272,10 +282,10 @@ def process_flow(f, flows, services, logger):
             result = e
             if type(result) == FileNotFoundError:
                 status = result.errno
-                logger.error(result.strerror.decode("utf-8"))
+                logger.error(result.strerror)
             if type(result) == PermissionError:
                 status = result.errno
-                logger.error(result.strerror.decode("utf-8"))
+                logger.error(result.strerror)
             if type(result) == subprocess.CalledProcessError:
                 status = result.returncode
                 logger.error(result.stderr.decode("utf-8"))

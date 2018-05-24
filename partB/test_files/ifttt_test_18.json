@@ -1,0 +1,8 @@
+{
+  "flows": {
+	  "test service with data and no input/output config": [
+		  "time of day",
+		  "test 18"
+		  ]
+	  }
+}

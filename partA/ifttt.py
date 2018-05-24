@@ -87,10 +87,10 @@ def process_flow(f, flows, services, logger):
             result = e
             if type(result) == FileNotFoundError:
                 status = result.errno
-                logger.error(result.strerror.decode("utf-8"))
+                logger.error(result.strerror)
             if type(result) == PermissionError:
                 status = result.errno
-                logger.error(result.strerror.decode("utf-8"))
+                logger.error(result.strerror)
             if type(result) == subprocess.CalledProcessError:
                 status = result.returncode
                 logger.error(result.stderr.decode("utf-8"))
