@@ -26,7 +26,7 @@ def convert_datetime_string_part2(
         )
         return True
 
-    except ValueError:
+    except ValueError as e:
         # exit with status code
-        logger.error("input time does not match required time format")
+        logger.error(e)
         return False
