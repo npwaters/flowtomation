@@ -70,17 +70,24 @@ def check_file_modified(
     """
 
     result = ''
+
     file_info = os.stat(file_name)
     file_current_modified_time = file_info.st_mtime
 
-    if not file_information.get(file_name):
+    try:
+        file_information.get(file_name)["file_last_modified"]
+
+    except TypeError:
         file_information[file_name] = {}
         file_information.get(file_name)["file_last_modified"] = file_current_modified_time
         logger.info("no modified information found - first run")
         logger.info("last modified time created for file: {0}".format(file_name))
+        file_information.get(file_name)["last seen"] = time.time()
         return True
     else:
         file_last_modified_time = file_information.get(file_name)["file_last_modified"]
+
+    file_information.get(file_name)["last seen"] = time.time()
 
     if file_last_modified_time < file_current_modified_time:
         file_information.get(file_name)["file_last_modified"] = file_current_modified_time

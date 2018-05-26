@@ -96,6 +96,7 @@ def verify_service_data_format(
 def get_services(
         services,
         file_information,
+        currently_installed_services,
         logger
 ):
     # search recursively for config.json files in 'services' directory
@@ -107,6 +108,7 @@ def get_services(
                 # check if file information exists or the config has ben modified
                 # service name is the parent directory name
                 config_file_path = os.path.join(root, file)
+                currently_installed_services.append(root)
                 # if the file doesnt have any file information
                 # it should be classed as 'new'
                 # therefore we need to check if it is a duplicate name of an existing service
@@ -330,6 +332,10 @@ def main():
 
     # process the flows
     while True:
+        program_run_start_time = time.time()
+        # TODO: remove
+        currently_installed_services = []
+        uninstalled_services = []
         logger.info("waiting for next flow start time ...")
         if utilities.flow_start_time():
             logger.info("it's go time!")
@@ -373,12 +379,36 @@ def main():
             if get_services(
                 services,
                 file_information,
+                currently_installed_services,
                 logger
             ):
                 logger.info("got the services!")
             else:
                 logger.warning("Error encountered getting services - please review the service configurations")
                 # sys.exit("Error encountered loading services - see log file for details")
+
+            # TODO: cleanup running-configuration
+            # remove services not currently installed
+            logger.info("running service cleanup!")
+            for file, file_info in file_information.items():
+                if file_info["last seen"] < program_run_start_time:
+                    logger.info("service removed")
+                    # remove from file information and services
+                    uninstalled_services.append(file)
+                    service = file.split("/")[-2]
+                    del services[service]
+
+            # remove the uninstalled services from running-configuration
+            for uninstalled_service in uninstalled_services:
+                del file_information[uninstalled_service]
+
+            # for service in services:
+            #     for installed in currently_installed_services:
+            #         if service in installed:
+            #             break
+            #         logger.info("service {0} no longer installed - removing"
+            #                     .format(service))
+            #         del services[service]
 
             logger.info("starting flows")
             for flow, service_list in flows.items():
