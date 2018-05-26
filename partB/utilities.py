@@ -80,8 +80,8 @@ def check_file_modified(
     except TypeError:
         file_information[file_name] = {}
         file_information.get(file_name)["file_last_modified"] = file_current_modified_time
-        logger.info("no modified information found - first run")
-        logger.info("last modified time created for file: {0}".format(file_name))
+        logger.debug("no modified information found for file {0}".format(file_name))
+        logger.debug("last modified time created for file: {0}".format(file_name))
         file_information.get(file_name)["last seen"] = time.time()
         return True
     else:
@@ -91,10 +91,10 @@ def check_file_modified(
 
     if file_last_modified_time < file_current_modified_time:
         file_information.get(file_name)["file_last_modified"] = file_current_modified_time
-        logger.info("last modified time updated for file: {0}".format(file_name))
+        logger.debug("last modified time updated for file: {0}".format(file_name))
         return True
     else:
-        logger.info("no changes detected since last run for file: {0}".format(file_name))
+        logger.debug("no changes detected since last run for file: {0}".format(file_name))
         return False
 
 

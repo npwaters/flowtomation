@@ -131,7 +131,7 @@ def get_services(
                         logger
                     )
                     if service:
-                        logger.info("{0} passed JSON validation!".format(log_line_prefix))
+                        logger.debug("{0} passed JSON validation!".format(log_line_prefix))
 
                     else:
                         logger.error("{0} failed JSON validation!".format(log_line_prefix))
@@ -145,7 +145,7 @@ def get_services(
                             utilities.required_keys.get("service_configuration"),
                             logger
                     ):
-                        logger.info("{0} passed configuration verification!".format(log_line_prefix))
+                        logger.debug("{0} passed configuration verification!".format(log_line_prefix))
                         service_name = service.get("name")
                         # verify the directory name and service name match
                         if service_name != service_directory_name:
@@ -314,16 +314,29 @@ def process_flow(
 
 
 def main():
-    # setup logging
-    logger = utilities.setup_logger("CPT223 A2")
+    configuration_file_supplied = True
+    log_level = "INFO"
+    if len(sys.argv) == 3:
+        if sys.argv[2].upper() == "DEBUG":
+            log_level = "DEBUG"
 
-    flow_configuration_file = ''
-    # get the configuration file from the command line if one supplied
-    try:
-        flow_configuration_file = sys.argv[1]
-    except IndexError:
+    elif len(sys.argv) == 2:
+        if sys.argv[1].upper() == "DEBUG":
+            configuration_file_supplied = False
+            log_level = "DEBUG"
+        else:
+            configuration_file_supplied = True
+    else:
+        configuration_file_supplied = False
+
+    # setup logging
+    logger = utilities.setup_logger("CPT223 A2", log_level)
+
+    if not configuration_file_supplied:
         logger.info("configuration file not supplied as argument - using default")
         flow_configuration_file = "ifttt.json"
+    else:
+        flow_configuration_file = sys.argv[1]
 
     # get the program configuration
     # get the services
