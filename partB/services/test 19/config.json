@@ -1,13 +1,8 @@
 {
 	"name": "test 19",
 	"program": "./get_date_time_test.py",
-	"description": "",
+	"description": "test mismatch in service directory and service name",
 	"configuration": {
 		"any": "required key value pairs"
-	},
-	"parameters": "'%d/%m/%Y %H:%M:%S'",
-	"output": {
-		"type": "time",
-		"format": "%d/%m/%Y %H:%M:%S"
 	}
 }

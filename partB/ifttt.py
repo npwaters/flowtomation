@@ -136,10 +136,7 @@ def get_services(
                         return False
                     # verify configuration
                     # configuration = services.get(service_directory_name)
-                    # if not configuration:
-                    #     logger.error("directory name and service name for service {0} do not match"
-                    #                  .format(service_directory_name))
-                    #     return False
+
 
                     if utilities.verify_configuration(
                             service,
@@ -147,9 +144,15 @@ def get_services(
                             logger
                     ):
                         logger.info("{0} passed configuration verification!".format(log_line_prefix))
+                        service_name = service.get("name")
+                        # verify the directory name and service name match
+                        if service_name != service_directory_name:
+                            logger.error("directory name and service name for service {0} do not match"
+                                         .format(service_directory_name))
+                            get_failed = True
+                            continue
                         # load the service into running configuration
                         # TODO: issue loading service with same name?
-                        service_name = service.get("name")
                         if new_file and service_name not in services:
                             services[service_name] = service
                         elif not new_file and service_name in services:
