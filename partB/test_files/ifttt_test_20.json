@@ -1,0 +1,11 @@
+{
+	"flows":{
+      "Auto open zip files":[
+         "dropzone",
+         "filter zip",
+         "unzip files",
+         "append to file sample"
+      ]
+
+   }
+}

@@ -1,0 +1,13 @@
+{
+	"name": "append to file sample",
+	"program": "./append.py",
+	"description": "append to file",
+	"configuration": {
+		"any": "required key value pairs"
+	},
+	"parameters": "zip_contents.txt",
+	"input": {
+		"type": "string"
+	}
+	
+}

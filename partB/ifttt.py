@@ -185,6 +185,7 @@ def get_services(
 def get_command_line(
         service,
         services,
+        file_information,
         service_output
 ):
     program = services.get(service).get("program")
@@ -194,12 +195,15 @@ def get_command_line(
         parameters = parameters.replace("$$", service_output)
     # check if the service uses a custom python script
     path = ''
+    for key in file_information.keys():
+        if service in key:
+            file_path = os.path.dirname(key)
     if "./" in program:
         program = program[2:]
-        path = "%s/%s/" % (
-            "services",
+        path = "%s/" % (
             # escape any spaces so shlex doesnt split the directory name
-            " ".join(["%s\\" % line for line in service.split()])
+            # get the file path
+            " ".join(["%s\\" % line for line in file_path.split()])
         )
 
     if parameters:
@@ -220,7 +224,13 @@ def get_command_line(
     return command_line
 
 
-def process_flow(f, flows, services, logger):
+def process_flow(
+        f,
+        flows,
+        services,
+        file_information,
+        logger
+):
     # store our service output to use as input for the next service
     service_output = ''
 
@@ -255,6 +265,7 @@ def process_flow(f, flows, services, logger):
                 get_command_line(
                     service,
                     services,
+                    file_information,
                     service_output
                 ),
                 input=service_output,
@@ -373,7 +384,13 @@ def main():
                 start_time = datetime.datetime.now()
                 # check the status of the flow
                 log_line_prefix = "flow: {0} status -".format(flow)
-                if process_flow(flow, flows, services, logger):
+                if process_flow(
+                        flow,
+                        flows,
+                        services,
+                        file_information,
+                        logger
+                ):
                     flow_status = "successful!"
                     logger.info("{0} successful!".format(log_line_prefix))
                 else:

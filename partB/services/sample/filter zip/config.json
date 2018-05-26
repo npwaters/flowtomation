@@ -1,0 +1,9 @@
+{
+	"name": "filter zip",
+	"program": "./filter.py",
+	"description": "",
+	"configuration": {
+		"any": "required key value pairs"
+	},
+	"parameters": ".+\\.zip"
+}
