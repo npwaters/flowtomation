@@ -1,5 +1,5 @@
 {
-	"name": "append to file",
+	"": "append to file",
 	"program": "./append.py",
 	"description": "append to file",
 	"configuration": {

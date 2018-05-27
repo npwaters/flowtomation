@@ -171,21 +171,18 @@ def get_services(
                         # remove the service from running configuration
                         # remove the service if it is already installed
 
-                        if service.get("name") in services:
-                            del services[service.get("name")]
-                        # del services[service_directory_name]
+                        service_name = service.get("name")
+                        if service_name in services:
+                            del services[service_name]
+                        else:
+                            logger.debug("service name retrieval failed - unable to check if service"
+                                         " exists in running-configuration")
                         get_failed = True
+
         continue
     if get_failed:
         return False
     return True
-
-# # ------------------------------------------------------------------------------
-#
-#
-# def get_services_part_1():
-#
-#     return services
 
 
 def get_command_line(
