@@ -33,10 +33,17 @@ supported_data_types = {
     "time": datetime.datetime
 }
 
+
 def setup_logger(
         name,
         log_level="INFO"
 ):
+    """
+    returns a logger object that will rotate the log files
+    :param name:
+    :param log_level:
+    :return:
+    """
     level = logging.getLevelName(log_level)
     logger = logging.getLogger(name)
     logger.setLevel(level)
@@ -103,6 +110,13 @@ def verify_configuration(
         required_keys,
         logger
 ):
+    """
+
+    :param configuration:
+    :param required_keys:
+    :param logger:
+    :return:
+    """
     verification_passed = True
     for key in required_keys:
         if key not in configuration:
@@ -150,6 +164,12 @@ def load_service(
         config_file,
         logger
 ):
+    """
+    verify if the configuration is in valid JSON format
+    :param config_file:
+    :param logger:
+    :return:
+    """
     try:
         return json.load(
             open(
@@ -173,6 +193,14 @@ def flow_ready_to_run(
         flow,
         logger
 ):
+    """
+    verify if all services configured in the flow have been loaded into running-configuration
+    :param services:
+    :param flows:
+    :param flow:
+    :param logger:
+    :return:
+    """
     flow_ready = True
     missing_services = []
     logger.info("checking availability of services configured in flow: {0}".format(flow))
@@ -192,7 +220,10 @@ def flow_ready_to_run(
 
 
 def flow_start_time():
-
+    """
+    make the program wait until the next available minute
+    :return:
+    """
     time_to_start = False
     while not time_to_start:
         second = datetime.datetime.now().second

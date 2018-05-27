@@ -65,7 +65,6 @@ def verify_service_data_format(
         return False
 
     # get the data payload
-    # service_data = service_data.decode("utf-8")
     try:
         json_message = json.loads(service_data.decode("utf-8"))
     except json.JSONDecodeError as e:
@@ -102,6 +101,13 @@ def get_services(
         file_information,
         logger
 ):
+    """
+
+    :param services:
+    :param file_information:
+    :param logger:
+    :return:
+    """
     # search recursively for config.json files in 'services' directory
     result = ''
     get_failed = False
@@ -163,7 +169,7 @@ def get_services(
                             del services[service_name]
                             services[service_name] = service
                         else:
-                            logger.error("service with the same exists in the running configuration")
+                            logger.error("service with the same name exists in the running configuration")
                             get_failed = True
 
                     else:
@@ -191,6 +197,14 @@ def get_command_line(
         file_information,
         service_output
 ):
+    """
+
+    :param service:
+    :param services:
+    :param file_information:
+    :param service_output:
+    :return:
+    """
     program = services.get(service).get("program")
     parameters = services.get(service).get("parameters")
     # check for special symbol '$$' in parameters
@@ -234,6 +248,15 @@ def process_flow(
         file_information,
         logger
 ):
+    """
+
+    :param f:
+    :param flows:
+    :param services:
+    :param file_information:
+    :param logger:
+    :return:
+    """
     # store our service output to use as input for the next service
     service_output = ''
 
@@ -312,6 +335,10 @@ def process_flow(
 
 
 def main():
+    """
+
+    :return:
+    """
     configuration_file_supplied = True
     log_level = "INFO"
     if len(sys.argv) == 3:
