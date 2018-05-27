@@ -1,7 +1,7 @@
 {
 	"name": "test 200",
 	"program": "./get_date_time_test.py",
-	"description": "",
+	"description": "test service name and directory name mismatch",
 	"configuration": {
 		"any": "required key value pairs"
 	},

@@ -34,8 +34,12 @@ def verify_service_data_format(
         logger
 ):
     """
-    -service input will be the output of the preceding service in the flow
-    -input will be in the form of a JSON formatted string
+
+    :param service:
+    :param services:
+    :param service_data:
+    :param direction:
+    :param logger:
     :return:
     """
     # get the data type
@@ -96,7 +100,6 @@ def verify_service_data_format(
 def get_services(
         services,
         file_information,
-        currently_installed_services,
         logger
 ):
     # search recursively for config.json files in 'services' directory
@@ -108,7 +111,6 @@ def get_services(
                 # check if file information exists or the config has ben modified
                 # service name is the parent directory name
                 config_file_path = os.path.join(root, file)
-                currently_installed_services.append(root)
                 # if the file doesnt have any file information
                 # it should be classed as 'new'
                 # therefore we need to check if it is a duplicate name of an existing service
@@ -154,7 +156,6 @@ def get_services(
                             get_failed = True
                             continue
                         # load the service into running configuration
-                        # TODO: issue loading service with same name?
                         if new_file and service_name not in services:
                             services[service_name] = service
                         elif not new_file and service_name in services:
@@ -346,8 +347,6 @@ def main():
     # process the flows
     while True:
         program_run_start_time = time.time()
-        # TODO: remove
-        currently_installed_services = []
         uninstalled_services = []
         logger.info("waiting for next flow start time ...")
         if utilities.flow_start_time():
@@ -392,7 +391,6 @@ def main():
             if get_services(
                 services,
                 file_information,
-                currently_installed_services,
                 logger
             ):
                 logger.info("got the services!")
@@ -400,28 +398,26 @@ def main():
                 logger.warning("Error encountered getting services - please review the service configurations")
                 # sys.exit("Error encountered loading services - see log file for details")
 
-            # TODO: cleanup running-configuration
-            # remove services not currently installed
+            # cleanup running-configuration
+            # remove services uninstalled since last run
             logger.info("running service cleanup!")
             for file, file_info in file_information.items():
-                if file_info["last seen"] < program_run_start_time:
-                    logger.info("service removed")
-                    # remove from file information and services
-                    uninstalled_services.append(file)
-                    service = file.split("/")[-2]
-                    del services[service]
+                try:
+                    last_seen = file_info["last seen"]
+                    if last_seen < program_run_start_time:
+                        # remove from file information and services
+                        uninstalled_services.append(file)
+                        service = file.split("/")[-2]
+                        logger.debug("removing uninstalled service {0} from running-configuration"
+                                     .format(service))
+                        del services[service]
+                except KeyError:
+                    logger.debug("file: {0} - missing last seen information"
+                                 .format(file))
 
             # remove the uninstalled services from running-configuration
             for uninstalled_service in uninstalled_services:
                 del file_information[uninstalled_service]
-
-            # for service in services:
-            #     for installed in currently_installed_services:
-            #         if service in installed:
-            #             break
-            #         logger.info("service {0} no longer installed - removing"
-            #                     .format(service))
-            #         del services[service]
 
             logger.info("starting flows")
             for flow, service_list in flows.items():

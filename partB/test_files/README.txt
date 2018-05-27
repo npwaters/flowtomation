@@ -3,7 +3,7 @@
 Note:
 the test below are primarily related to part 2
 
-the numbers below correspond to configuration files in the 'test_files' directory
+the numbers below correspond to configuration files in the 'test_files' directory unless stated otherwise
 the following tests have 2 x files:
 5
 6
@@ -87,14 +87,33 @@ one minute (have a service that does a time.sleep(60))
 		do not load service
 		Flow with service configured will be skipped	
 
-17. Mandatory field verification failure - missing 'name' field
+17. Mandatory field verification failure
 	Expected result:
 		Log error
 		do not load service
 		Flow with service configured will be skipped
 18. Service received/sent data without input/output configuration
-	note: use test file 8 for this test
 		Expected result:
 			Log error
 			exit flow
-
+19. Invalid time received as output from a service
+		Expected result:
+			Log error
+			exit flow
+20. Sample flow
+21. test service name and directory name mismatch
+	note: tested by trying to load service 'test 21'
+		Expected result:
+			log error
+			do not load service
+22. test cleanup running-configuration (remove uninstalled services)
+	note: tested by removing directory 'test 22' after first run with 'debug' logging enabled (see program README.txt)
+	Expected result:
+		log 'debug' level log
+		
+23. service configured in flow missing from running-configuration
+	note: tested by running program with default configuration
+		expected result:
+			log error
+			do not run (skip) flow
+		
