@@ -1,3 +1,5 @@
+The program logs all activity to log file 'a2.log' in the CWD.
+
 The program supports two levels of logging:
 	'INFO' - this is the default level
 	'DEBUG' - can be activated by adding the 'debug' parameter

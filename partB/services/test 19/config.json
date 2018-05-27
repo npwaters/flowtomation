@@ -4,5 +4,8 @@
 	"description": "test mismatch in service directory and service name",
 	"configuration": {
 		"any": "required key value pairs"
+	},
+	"output": {
+		"type": "time"
 	}
 }

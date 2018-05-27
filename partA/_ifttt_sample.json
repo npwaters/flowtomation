@@ -2,7 +2,7 @@
    "services":{  
 
       "dropzone":{
-         "gram":"_sample/files.py",
+         "program":"_sample/files.py",
          "parameters":"_sample"
       },
 
