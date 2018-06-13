@@ -1,5 +1,6 @@
 import sys
 import os
+import datetime
 
 
 content_root = "/".join(os.path.dirname(os.path.realpath(__file__))
@@ -74,3 +75,44 @@ class Evening(TimeOfDayService):
             self.app_service_output["data"] = True
         else:
             self.app_service_output["data"] = False
+
+
+class CustomSchedule(TimeOfDayService):
+
+    def check_schedule(self, time_unit):
+        if self.time_unit % self.schedule == 0:
+            return True
+        else:
+            return False
+
+    def minute_option(self):
+        if self.validated_time.second == 0:
+            self.time_unit = self.validated_time.minute
+        else:
+            return False
+
+    def __init__(self, schedule, time_option, input_time):
+        # self.current_time = datetime.datetime.now()
+        self.schedule = schedule
+        self.time_option = time_option
+        self.time_unit = 0
+
+        self.time_options = {
+            # 'H': self.current_time.hour,
+            'M': self.minute_option,
+            # 'S': self.current_time.second
+        }
+        super().__init__(input_time)
+
+    def process_time(self, validated_time):
+        try:
+            time_function = self.time_options.get(self.time_option)
+            if not time_function() or not self.check_schedule():
+                self.app_service_output = False
+            else:
+                self.app_service_output = True
+            pass
+        except KeyError as e:
+            self.status = "Invalid schedule option!"
+
+
