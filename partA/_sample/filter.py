@@ -6,21 +6,21 @@
 import sys
 import re
 
+
 def main(regex):
-  lines = sys.stdin.read()	
-  lines = lines.split('\n')
-  lines = [line for line in lines if len(line) > 0]
+    lines = sys.stdin.read()
+    lines = lines.split('\n')
+    lines = [line for line in lines if len(line) > 0]
 
-
-  for line in lines:
-    if re.search(regex, line):
-      print(line)	
+    for line in lines:
+        if re.search(regex, line):
+            print(line)
 
 
 try:
-  main(sys.argv[1])
-  
-except:
-  sys.exit(1)
+    main(sys.argv[1])
+
+except IndexError:
+    sys.exit(1)
 
 sys.exit(0)
