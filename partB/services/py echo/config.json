@@ -1,0 +1,15 @@
+{
+	"name": "py echo",
+	"program": "./py_echo.py",
+	"description": "",
+	"configuration": {
+		"any": "required key value pairs"
+	},
+	"parameters": "current time\\: $$",
+	"input": {
+		"type": "string"
+	},
+	"output": {
+		"type": "string"
+	}
+}

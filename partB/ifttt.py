@@ -209,7 +209,10 @@ def get_command_line(
     parameters = services.get(service).get("parameters")
     # check for special symbol '$$' in parameters
     if parameters and "$$" in parameters:
-        parameters = parameters.replace("$$", service_output)
+        parameters = parameters.replace(
+            "$$",
+            json.loads(service_output.decode("utf-8")).get("data")
+        )
     # check if the service uses a custom python script
     path = ''
     for key in file_information.keys():
@@ -224,10 +227,12 @@ def get_command_line(
         )
 
     if parameters:
+        # parameters = " ".join(["%s\\" % line for line in parameters.split()])
         command_line = shlex.split(
                     '%s%s %s' % (
                         path,
                         program,
+                        # " ".join(["%s\\" % line for line in parameters.split()])
                         parameters
                     ),
                 )
@@ -286,14 +291,21 @@ def process_flow(
         # -service file/command not found
         # -permission issue on service file
         logger.info("running service {0} ...".format(service))
-        try:
-            result = subprocess.run(
-                get_command_line(
+        # args = ['python3',
+        #         "-u", "/home/nate/.pycharm_helpers/pydev/pydevd.py"
+        #         ]
+        command_line = get_command_line(
                     service,
                     services,
                     file_information,
                     service_output
-                ),
+                )
+
+        # args.extend(command_line)
+
+        try:
+            result = subprocess.run(
+                command_line,
                 input=service_output,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
