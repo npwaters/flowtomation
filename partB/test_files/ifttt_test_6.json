@@ -2,7 +2,7 @@
   "flows": {
 	  "check is morning": [
 		  "time of day",
-		  "is afternoon",
+		  "is morning",
 		  "quit if false",
 		  "time of day",
 		  "py echo",

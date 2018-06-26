@@ -13,7 +13,6 @@ input_string = sys.stdin.read()
 status = 0
 
 if not json.loads(input_string).get("data"):
-    status = "The input is False"
+    status = "Conditions to continue flow have not been met - the flow will now exit"
 
 sys.exit(status)
-

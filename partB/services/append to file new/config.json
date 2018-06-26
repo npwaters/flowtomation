@@ -1,8 +1,0 @@
-{
-	"name": "append to file new",
-	"program": "./append.py",
-	"description": "new version of append to file",
-	"configuration": {
-		"any": "required key value pairs"
-	}
-}

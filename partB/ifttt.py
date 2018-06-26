@@ -227,12 +227,10 @@ def get_command_line(
         )
 
     if parameters:
-        # parameters = " ".join(["%s\\" % line for line in parameters.split()])
         command_line = shlex.split(
                     '%s%s %s' % (
                         path,
                         program,
-                        # " ".join(["%s\\" % line for line in parameters.split()])
                         parameters
                     ),
                 )
@@ -291,17 +289,12 @@ def process_flow(
         # -service file/command not found
         # -permission issue on service file
         logger.info("running service {0} ...".format(service))
-        # args = ['python3',
-        #         "-u", "/home/nate/.pycharm_helpers/pydev/pydevd.py"
-        #         ]
         command_line = get_command_line(
                     service,
                     services,
                     file_information,
                     service_output
                 )
-
-        # args.extend(command_line)
 
         try:
             result = subprocess.run(
@@ -337,7 +330,7 @@ def process_flow(
                 logger.error(result.strerror)
             if type(result) == subprocess.CalledProcessError:
                 status = result.returncode
-                logger.error(result.stderr.decode("utf-8"))
+                logger.info(result.stderr.decode("utf-8").rstrip())
 
         # exit flow on non-zero return code
         if status != 0:
@@ -470,10 +463,10 @@ def main():
                         logger
                 ):
                     flow_status = "successful!"
-                    logger.info("{0} successful!".format(log_line_prefix))
+                    logger.info("{0} flow ran to completion!".format(log_line_prefix))
                 else:
                     flow_status = "failed!"
-                    logger.warning("{0} failed!".format(log_line_prefix))
+                    logger.info("{0} flow incomplete!".format(log_line_prefix))
                 time_taken = datetime.datetime.now() - start_time
                 # we need to wait until at least one second has elapsed
                 # so we dont run more than once if the flow run time
