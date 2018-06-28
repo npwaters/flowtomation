@@ -47,7 +47,7 @@ def setup_logger(
     level = logging.getLevelName(log_level)
     logger = logging.getLogger(name)
     logger.setLevel(level)
-    log_file_name = "a2.log"
+    log_file_name = "flowtomation.log"
     fh = logging.handlers.RotatingFileHandler(
         filename=log_file_name,
         maxBytes=100000,

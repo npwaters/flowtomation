@@ -364,7 +364,7 @@ def main():
 
     if not configuration_file_supplied:
         logger.info("configuration file not supplied as argument - using default")
-        flow_configuration_file = "ifttt.json"
+        flow_configuration_file = "flowtomation.json"
     else:
         flow_configuration_file = sys.argv[1]
 

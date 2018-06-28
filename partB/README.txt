@@ -5,8 +5,8 @@ The program supports two levels of logging:
 	'DEBUG' - can be activated by adding the 'debug' parameter
 	
 	E.g.
-	'./ifttt.py debug'
-	'./ifttt.py ifttt_test_1.json debug'
+	'./flowtomation.py debug'
+	'./flowtomation.py flowtomation_test_1.json debug'
 	
 	Note: when specifying a configuration file, the debug option must be the second parameter
 

@@ -1,5 +1,5 @@
 part A test:
-	_ifttt_sample.json
+	_flowtomation_sample.json
 
 
 Part B tests:

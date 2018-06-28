@@ -112,7 +112,7 @@ def main():
         program_configuration_file = sys.argv[1]
     except IndexError:
         logger.info("configuration file not supplied as argument - using default")
-        program_configuration_file = "ifttt.json"
+        program_configuration_file = "flowtomation.json"
 
     # get the program configuration
     try:
