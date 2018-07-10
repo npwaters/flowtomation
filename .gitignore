@@ -263,3 +263,4 @@ __pycache__/
 /_testing
 /test_package
 /flowtomation.json
+/.vscode
