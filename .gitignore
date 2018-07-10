@@ -260,3 +260,6 @@ paket-files/
 __pycache__/
 *.pyc
 /venv
+/_testing
+/test_package
+/flowtomation.json
