@@ -14,7 +14,7 @@ Append the current time to a file if it is the morning.<br>
  <br>
 # Requirements to run:<br>
  <br>
-Python 3.5+ on Linux<br>
+Python 3.5+ on Linux/WSL<br>
  <br>
  <br>
 # Details and running instructions:<br>
