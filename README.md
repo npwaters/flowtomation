@@ -51,8 +51,8 @@ Current time appended to 'partB/times.txt' if flow execution time is before 12pm
  <br>
 Part A represents the initial specification, and as such is a simple implementation. There is no input/output format, or Service configuration verification. Flowtomation purely does the following:<br>
  <br>
-Runs the flows configured at run time per the schedule (every minute)<br>
-Facilitates communication among the Services<br>
+- Runs the flows configured at run time per the schedule (every minute)<br>
+- Facilitates communication among the Services<br>
  <br>
  <br>
 #### Sample configuration file:<br>
