@@ -1,5 +1,4 @@
-
-# Synopsis:<br>
+# Flowtomation
  <br>
 Flowtomation was originally developed for a University assignment. Flowtomation is developed using Python 3.5/3.6. The assignment was awarded a score of 99% which included marks for coding style as well as functionality. Flowtomation has been updated since submission.<br>
  <br>
