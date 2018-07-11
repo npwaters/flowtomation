@@ -91,7 +91,7 @@ Part B represents a change in specifications, and as such is a more complex impl
  <br>
 Flowtomation logs all activity to log file 'partB/a2.log' in the CWD.<br>
  <br>
-##### Flowtomation supports two levels of logging:<br>
+#### Flowtomation supports two levels of logging:<br>
 - 'INFO' - this is the default level<br>
 - 'DEBUG' - can be activated by adding the 'debug' parameter<br>
 	 <br>
@@ -102,7 +102,7 @@ Flowtomation logs all activity to log file 'partB/a2.log' in the CWD.<br>
 	Note: when specifying a configuration file, the debug option must be the second parameter<br>
 	 <br>
 
-##### Run the test cases/samples:<br>
+#### Run the test cases/samples:<br>
 Test cases can be found in the 'partB/test_files' files with test outcome information listed in 'partB/test_files/README.txt'<br>
  <br>
 e,g.<br>
