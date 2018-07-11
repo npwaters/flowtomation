@@ -38,7 +38,7 @@ Flowtomation uses STDOUT from a Service as STDIN for the next Service in the Flo
 Append the current time to a file if it is the morning.<br>
  <br>
 #### Run the example:<br>
-'partB/ifttt_.py test_files/ifttt_test_6.json'<br>
+'partB/flowtomation.py test_files/flowtomation_test_6.json'<br>
  <br>
 #### Observe application output:<br>
 'partB/a2.log'<br>
@@ -56,12 +56,12 @@ Part A represents the initial specification, and as such is a simple implementat
  <br>
  <br>
 #### Sample configuration file:<br>
-'_ifttt_sample.json'<br>
+'_flowtomation_sample.json'<br>
  <br>
 Flowtomation contains a demonstration in which simple Services are linked in a Flow to accomplish a task.<br>
  <br>
 #### Run the demonstration:<br>
-e.g. 'partA/ifttt.py _ifttt_sample.json'<br>
+e.g. 'partA/flowtomation.py _flowtomation_sample.json'<br>
  <br>
 #### Observe Flowtomation output:<br>
 Flowtomation logs to 'partA/a2.log'<br>
@@ -96,8 +96,8 @@ Flowtomation logs all activity to log file 'partB/a2.log' in the CWD.<br>
 - 'DEBUG' - can be activated by adding the 'debug' parameter<br>
 	 <br>
 	E.g.<br>
-	'partB/ifttt.py debug'<br>
-	'partB/ifttt.py ifttt_test_1.json debug'<br>
+	'partB/flowtomation.py debug'<br>
+	'partB/flowtomation.py flowtomation_test_1.json debug'<br>
 	 <br>
 	Note: when specifying a configuration file, the debug option must be the second parameter<br>
 	 <br>
@@ -106,8 +106,8 @@ Flowtomation logs all activity to log file 'partB/a2.log' in the CWD.<br>
 Test cases can be found in the 'partB/test_files' files with test outcome information listed in 'partB/test_files/README.txt'<br>
  <br>
 e,g.<br>
-'partB/ifttt.py'<br>
-'partB/ifttt.py ifttt_test_1.json debug'<br>
+'partB/flowtomation.py'<br>
+'partB/flowtomation.py flowtomation_test_1.json debug'<br>
  <br>
  <br>
 # Possible issues running Flowtomation samples:<br>
