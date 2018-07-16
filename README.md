@@ -111,10 +111,10 @@ e,g.<br>
  <br>
 Line endings should be Unix style.<br>
 if not run:<br>
-find -iname "*.py" -exec dos2unix {} \;<br>
+find -iname "*.py" -exec dos2unix {} \\;<br>
  <br>
 #### Python script files not executable:<br>
  <br>
 if python files are not executable run:<br>
-find -iname "*.py" -exec chmod +x {} \; <br>
+find -iname "*.py" -exec chmod +x {} \\; <br>
 <br>
