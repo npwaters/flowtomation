@@ -1,0 +1,14 @@
+{
+	"name": "unzip files",
+	"program": "./unzip.py",
+	"description": "",
+	"configuration": {
+		"any": "required key value pairs"
+	},
+	"input": {
+		"type": "string"
+	},
+	"output": {
+		"type": "string"
+	}
+}

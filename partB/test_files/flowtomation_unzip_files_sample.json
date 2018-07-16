@@ -1,0 +1,10 @@
+{
+  "flows": {
+	  "unzip files": [
+		  "drop zone",
+		  "filter zip",
+		  "unzip files",
+		  "append to file"
+	  ]
+  }
+}

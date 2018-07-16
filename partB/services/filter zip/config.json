@@ -1,0 +1,15 @@
+{
+	"name": "filter zip",
+	"program":"./filter.py",
+	"parameters":".+\\.zip",
+	"description": "",
+	"configuration": {
+		"any": "required key value pairs"
+	},
+	"input": {
+		"type": "string"
+	},
+	"output": {
+		"type": "string"
+	}
+}
