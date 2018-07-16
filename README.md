@@ -6,76 +6,22 @@ Flowtomation implements functionality similar to cloud based tools IFTTT and Str
  <br>
 Flowtomation runs a series of command line programs (Flow) every minute. Output from a program (Service) is used as input to the next Service. Output/Input is encapsulated in a JSON formatted message. Services can be added (installed), and configuration changes made while Flowtomation is running.  Flowtomation validates Service configuration and input/output against pre-defined rules.<br>
  <br>
-### Simple example flow:<br>
- <br>
-Append the current time to a file if it is the morning.<br>
- <br>
- <br>
-# Requirements to run:<br>
- <br>
-Python 3.5+ on Linux/WSL<br>
- <br>
- <br>
-# Details and running instructions:<br>
- <br>
- <br>
-Flowtomation uses STDOUT from a Service as STDIN for the next Service in the Flow. STDOUT can be "injected" into the parameters for the next Service using the special character combination '$$' in the Service configuration.<br>
- <br>
-### Sample of pre-installed services (part B): <br>
- <br>
-- 'time of day' - return the current time<br>
-- 'is morning' - check if given time is before 12pm<br>
-- 'is afternoon' - check if given time is between 12pm - 6pm<br>
-- 'is evening' - check if given time is after 6pm<br>
-- 'quit if false' - check if conditions for the flow to continue have been met based on a boolean output from the previous service<br>
-- 'py echo' - return a new version of the input string by 'injecting' the input string into the service parameters<br>
-- 'append to file' - append input string to a file<br>
- <br>
- <br>
-### Example flow (part B):<br>
- <br>
-Append the current time to a file if it is the morning.<br>
- <br>
-#### Run the example:<br>
-'partB/flowtomation.py test_files/flowtomation_test_6.json'<br>
- <br>
-#### Observe application output:<br>
-'partB/a2.log'<br>
- <br>
-#### Observe outcome:<br>
-Current time appended to 'partB/times.txt' if flow execution time is before 12pm.<br>
- <br>
- <br>
-## Part A:<br>
- <br>
-Part A represents the initial specification, and as such is a simple implementation. There is no input/output format, or Service configuration verification. Flowtomation purely does the following:<br>
- <br>
-- Runs the flows configured at run time per the schedule (every minute)<br>
-- Facilitates communication among the Services<br>
- <br>
- <br>
-#### Sample configuration file:<br>
-'_flowtomation_sample.json'<br>
- <br>
-Flowtomation contains a demonstration in which simple Services are linked in a Flow to accomplish a task.<br>
- <br>
-#### Run the demonstration:<br>
-e.g. 'partA/flowtomation.py _flowtomation_sample.json'<br>
- <br>
-#### Observe Flowtomation output:<br>
-Flowtomation logs to 'partA/a2.log'<br>
- <br>
-#### Observe the task outcome:<br>
-The contents of all 'zip' files appended to 'zip_contents.txt'<br>
- <br>
- <br>
-## Part B:<br>
- <br>
-Part B represents a change in specifications, and as such is a more complex implementation.<br>
- <br>
- <br>
-### Application features in addition to part A:<br>
- <br>
+Flowtomation was developed in two parts (A and B).
+<br>
+Part A represented the initial specification, and as such was a simple implementation. There was no input/output format, or Service configuration verification. Part A purely performed the following:<br>
+
+- Run the flows configured at run time per the schedule (every minute)<br>
+- Facilitate communication among the Services
+<br>
+
+Part B represents a change in specifications, and as such is a more complex implementation.
+
+
+For simplicity, the final version (part B) of Flowtomation is maintained in this repository only.
+<br>
+<br>
+### Application features:<br>
+- Run the flows configured at run time per the schedule (every minute)
 - Data is passed between services using JSON messages instead of plain text<br>
 - Flowtomation validates that messages are of a supported type and match the configured input/output type<br>
 - Each Service lives in its own directory with its own configuration file <br>
@@ -87,8 +33,7 @@ Part B represents a change in specifications, and as such is a more complex impl
 - When the issue is rectified the updated configuration will be loaded into running-config<br>
 - Supports cleaning up of the running-configuration when a service is un-installed<br>
  <br>
- <br>
-Flowtomation logs all activity to log file 'partB/a2.log' in the CWD.<br>
+Flowtomation logs all activity to log file 'partB/flowtomation.log' in the CWD.<br>
  <br>
 #### Flowtomation supports two levels of logging:<br>
 - 'INFO' - this is the default level<br>
@@ -101,7 +46,58 @@ Flowtomation logs all activity to log file 'partB/a2.log' in the CWD.<br>
 	Note: when specifying a configuration file, the debug option must be the second parameter<br>
 	 <br>
 
-#### Run the test cases/samples:<br>
+# Requirements to run:<br>
+ <br>
+Python 3.5+ on Linux/WSL<br>
+ <br>
+ <br>
+# Details and running instructions:<br>
+ <br>
+Flowtomation uses STDOUT from a Service as STDIN for the next Service in the Flow. STDOUT can be "injected" into the parameters for the next Service using the special character combination '$$' in the Service configuration.<br>
+ <br>
+### Sample of pre-installed services: <br>
+ <br>
+- 'time of day' - return the current time<br>
+- 'is morning' - check if given time is before 12pm<br>
+- 'is afternoon' - check if given time is between 12pm - 6pm<br>
+- 'is evening' - check if given time is after 6pm<br>
+- 'quit if false' - check if conditions for the flow to continue have been met based on a boolean output from the previous service<br>
+- 'py echo' - return a new version of the input string by 'injecting' the input string into the service parameters<br>
+- 'append to file' - append input string to a file<br>
+ <br>
+ <br>
+### Sample flow 1:
+
+Append the current time to a file if it is the morning.<br>
+ <br>
+#### Run the sample:<br>
+'partB/flowtomation.py test_files/flowtomation_test_6.json'<br>
+ <br>
+#### Observe Flowtomation output:<br>
+'partB/flowtomation.log'<br>
+ <br>
+#### Observe outcome:<br>
+Current time appended to 'partB/times.txt' if flow execution time is before 12pm.<br>
+ <br>
+ <br>
+### Sample flow 2:
+Unpack all the zip files in a directory and append the unpacked file names to a file
+<br>
+<br>
+#### Run the sample:
+'partB/flowtomation.py flowtomation_unzip_files_sample.json'<br>
+ <br>
+ <br>
+#### Observe Flowtomation output:<br>
+Flowtomation logs to 'partB/flowtomation.log'<br>
+ <br>
+#### Observe the task outcome:<br>
+The filenames of unpacked files from all 'zip' files appended to 'flowtomation_output_file.txt'<br>
+ <br>
+ <br>
+
+
+#### Run the test cases:<br>
 Test cases can be found in the 'partB/test_files' files with test outcome information listed in 'partB/test_files/README.txt'<br>
  <br>
 e,g.<br>
