@@ -5,7 +5,7 @@
 	"configuration": {
 		"any": "required key value pairs"
 	},
-	"parameters": "times.txt",
+	"parameters": "flowtomation_output_file.txt",
 	"input": {
 		"type": "string"
 	}

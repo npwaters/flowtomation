@@ -28,6 +28,7 @@ def main(regex):
     filter_service = custom_classes_part_2.AppService()
     filter_service.app_service_output["data"] = "\n".join(matched_lines)
     filter_status, result_bytes = filter_service.get_results()
+    sys.stdout.buffer.write(result_bytes)
     return filter_status
 
 

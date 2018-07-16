@@ -13,7 +13,10 @@ from partB import custom_classes_part_2
 
 
 def main(directory):
-    files = os.listdir(directory)
+    files = [
+        os.path.join(directory, file) for file in
+        os.listdir(directory)
+    ]
     files_service = custom_classes_part_2.AppService()
     files_service.app_service_output["data"] = "\n".join(files)
     files_status, result_bytes = files_service.get_results()

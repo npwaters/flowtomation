@@ -1,7 +1,7 @@
 {
 	"name": "drop zone",
 	"program": "./files.py",
-	"parameters": "../../unzip_files_sample",
+	"parameters": "unzip_files_sample",
 	"description": "",
 	"configuration": {
 		"any": "required key value pairs"
