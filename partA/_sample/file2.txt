@@ -1,2 +1,0 @@
-Modify your class from last question to include docstrings and a simple doctest for each of the methods you’ve written.
-Test sample programs in this week’s lecture.
