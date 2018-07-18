@@ -22,7 +22,7 @@ For simplicity, the final version (part B) of Flowtomation is maintained in this
 <br>
 **Note:**
 <br>
-GitHub does not currently support rename history. Some of the main Flowtomation files e.g. 'flowtomation.py' have been renamed over the course of development.
+GitHub does not currently support rename history. Some of the main Flowtomation files e.g. 'flowtomation.py' have been renamed/moved over the course of development.
 <br>
 Chrome extension 'Github Follow' can be used to view full rename history.
 <br>
