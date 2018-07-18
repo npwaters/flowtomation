@@ -20,6 +20,13 @@ Part B represents a change in specifications, and as such is a more complex impl
 For simplicity, the final version (part B) of Flowtomation is maintained in this repository only.
 <br>
 <br>
+**Note:**
+<br>
+GitHub does not currently support rename history. Some of the main Flowtomation files e.g. 'flowtomation.py' have been renamed over the course of development.
+<br>
+Chrome extension 'Github Follow' can be used to view full rename history.
+<br>
+<br>
 ### Application features:<br>
 - Run the flows configured at run time per the schedule (every minute)
 - Data is passed between services using JSON messages instead of plain text<br>
